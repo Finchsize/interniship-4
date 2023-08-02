@@ -10,7 +10,4 @@
 -Host: localhost:3000
 
 # Suggestions
--Extensions for Visual Studio Code:
-    -Git Graph
-    -Live Sass Compiler
-    -Sass
+-Extensions for Visual Studio Code: Git Graph
