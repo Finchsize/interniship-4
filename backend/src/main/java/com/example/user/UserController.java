@@ -1,5 +1,6 @@
 package com.example.user;
 
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +13,9 @@ public class UserController {
 
     private final UserRepository userRepository;
 
-    @GetMapping("/")
+    @GetMapping
     public List<User> getUsers() {
-        return userRepository.getAll();
+        return userRepository.findAll();
     }
 
     @PostMapping("/register")

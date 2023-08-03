@@ -1,38 +1,49 @@
 package com.example.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Entity
+@Table(name = "account")
 public class User {
-    private int id;
-    private String name;
-    private String password;
-    private String netbar_ip;
-    private String superpass;
-    private int lock;
-    private int vip;
-    private int pointtime;
-    private int idnumber;
-    private int phone;
-    private String email;
-    private int ip_mask;
-    private boolean banned;
-    private String SecurityQuestion;
-    private String answer;
-    private String sex;
-    private String voting_points;
-    private String realname;
-    private String SecurityCode;
-    private String day;
-    private String month;
-    private String year;
-    private String country;
-    private String city;
-    private String state;
-    private String reg_date;
-    private String reg_ip;
+    @Id
+    Integer id;
+    String name;
+    String password;
+    String netbar_ip;
+    String superpass;
+    int lock;
+    int vip;
+    int pointtime;
+    int idnumber;
+    int phone;
+    String email;
+    int ip_mask;
+    boolean banned;
+    //    @Column(name = "SecurityQuestion")
+//    String securityQuestion;
+    String answer;
+    String sex;
+    String voting_points;
+    String realname;
+    //    @Column(name = "SecurityCode")
+//    String securityCode;
+    String day;
+    String month;
+    String year;
+    String country;
+    String city;
+    String state;
+    String reg_date;
+    String reg_ip;
 }
