@@ -4,7 +4,7 @@
 
 # Commands
 -Run: npm start
--Create roduction build: npm run build
+-Create production build: npm run build
 
 # Links
 -Host: localhost:3000
