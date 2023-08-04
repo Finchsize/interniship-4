@@ -26,13 +26,11 @@ public class UserController {
     // JWT algorithm
     Algorithm algorithm = Algorithm.HMAC256("449d0065577de8cc67efc7abe049ef5514cc29a8ebc28dbd120954b24db9e797");
 
-    // Find all users
     @GetMapping
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    // Find user by id
     @GetMapping("/{id}")
     public Optional<User> findById(@PathVariable int id) {
         return userRepository.findById(id);
@@ -60,8 +58,7 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Encountered error while creating a JWT.", exception);
         }
     }
-
-    // Delete an user
+    
     public void deleteUser(@PathVariable int id) {
         userRepository.deleteById(id);
     }
