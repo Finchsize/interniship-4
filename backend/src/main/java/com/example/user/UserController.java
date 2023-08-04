@@ -44,11 +44,11 @@ public class UserController {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email is already taken");
         }
-        
+
         User newUser = userRepository.save(user);
 
         try {
-            String token = JWT.create().withClaim("id", newUser.getId()).withIssuedAt(new Date()).withExpiresAt(new Date(System.currentTimeMillis() + 5000L)).sign(algorithm);
+            String token = JWT.create().withClaim("id", newUser.getId()).withIssuedAt(new Date()).withExpiresAt(new Date(System.currentTimeMillis() + 5000L)).sign(jwtAlgorithm);
             return token;
         } catch (JWTCreationException exception) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Encountered error while creating a JWT.", exception);
