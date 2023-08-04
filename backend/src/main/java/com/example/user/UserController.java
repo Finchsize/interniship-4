@@ -4,10 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -33,6 +29,27 @@ public class UserController {
     @GetMapping("/{id}")
     public Optional<User> findById(@PathVariable int id) {
         return userRepository.findById(id);
+    }
+
+    @PostMapping("/login")
+    public String loginUser(@RequestBody User user) {
+        // Check if user with specified name or email exists
+        if (!userRepository.existsByName(user.getName())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "No user with specified name found");
+        }
+
+        User specifiedUser = userRepository.findByName(user.getName());
+
+        if (!specifiedUser.getPassword().equals(user.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong password");
+        }
+
+        try {
+            String token = JWT.create().withClaim("id", specifiedUser.getId()).withIssuedAt(new Date()).withExpiresAt(new Date(System.currentTimeMillis() + 5000L)).sign(jwtAlgorithm);
+            return token;
+        } catch (JWTCreationException exception) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Encountered error while creating a JWT.", exception);
+        }
     }
 
     @PostMapping("/register")
