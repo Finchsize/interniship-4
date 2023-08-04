@@ -1,13 +1,12 @@
 package com.example.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 @Getter
 @Setter
@@ -17,27 +16,39 @@ import lombok.experimental.FieldDefaults;
 @Table(name = "account")
 public class User {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id",unique=true, nullable = false)
     Integer id;
+    @Basic(optional = false)
     String name;
+    @Basic(optional = false)
     String password;
     String netbar_ip;
     String superpass;
+    @Column(name = "`lock`")
+    @Basic(optional = false)
     int lock;
+    @Basic(optional = false)
     int vip;
+    @Basic(optional = false)
     int pointtime;
+    @Basic(optional = false)
     int idnumber;
+    @Basic(optional = false)
     int phone;
+    @Basic(optional = false)
     String email;
     int ip_mask;
-    boolean banned;
-    //    @Column(name = "SecurityQuestion")
-//    String securityQuestion;
+    int banned;
+    String securityQuestion;
     String answer;
-    String sex;
-    String voting_points;
+    @Basic(optional = false)
+    String sex = "";
+    @Basic(optional = false)
+    String voting_points = "";
     String realname;
-    //    @Column(name = "SecurityCode")
-//    String securityCode;
+    String securityCode;
     String day;
     String month;
     String year;
