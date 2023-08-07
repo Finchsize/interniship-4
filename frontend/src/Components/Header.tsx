@@ -4,12 +4,11 @@ import {
   ReactNode,
   ReactPortal,
 } from "react";
-import H1 from "./H1";
 
 function Header() {
   return (
     <header className="flex w-full items-center justify-between self-stretch">
-      <H1 key="logo" text="Dragon's Nest CO"></H1>
+      <h1 className=" text-6xl font-semibold">Dragon's Nest CO</h1>
       <Navbar names={["Patch notes", "Rankings", "Marketplace"]}></Navbar>
       <Right></Right>
     </header>
@@ -30,7 +29,7 @@ function Right() {
   return (
     <div
       className="flex items-center justify-end gap-8"
-      style={{ width: "34rem" }}
+      style={{ width: "479.52px" }}
     >
       <Status></Status>
       <span className="font-icons text-6xl">account_circle</span>
