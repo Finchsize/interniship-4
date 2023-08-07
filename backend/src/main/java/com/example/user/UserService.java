@@ -25,10 +25,6 @@ public class UserService {
         return userRepository.findByName(name);
     }
 
-    public void deleteUserById(int id) {
-        userRepository.deleteById(id);
-    }
-
     public User saveUser(User user) {
         if (userRepository.existsByEmail(user.getEmail()) || userRepository.existsByName(user.getName())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User already exists");

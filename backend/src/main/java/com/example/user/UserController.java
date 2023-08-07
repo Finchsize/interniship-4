@@ -59,8 +59,4 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Encountered error while creating a JWT.", exception);
         }
     }
-
-    public void deleteUser(@PathVariable int id) {
-        userService.deleteUserById(id);
-    }
 }
