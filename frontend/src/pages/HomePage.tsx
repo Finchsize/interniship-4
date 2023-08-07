@@ -42,7 +42,7 @@ export function HomePage() {
       </div>
       <div className="flex flex-col items-start gap-12 self-stretch">
         <div className="flex flex-col items-start justify-center gap-4">
-          <h1 className=" text-6xl font-semibold">Keep track of the game</h1>;
+          <h1 className=" text-6xl font-semibold">Keep track of the game</h1>
           <h2 className=" text-4xl font-semibold text-gray-700">
             Become a better player everyday.
           </h2>
