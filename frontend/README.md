@@ -1,13 +1,16 @@
 # Requirements
--Node.js
--Visual Studio Code
+1. Node.js
+2. Visual Studio Code
+
+# How to run
+1. npm install
+2. npm start
 
 # Commands
--Run: npm start
--Create production build: npm run build
+1. Create production build: npm run build
 
 # Links
--Host: localhost:3000
+1. Host: localhost:3000
 
 # Suggestions
--Extensions for Visual Studio Code: Git Graph
+1. Extensions for Visual Studio Code: Git Graph
