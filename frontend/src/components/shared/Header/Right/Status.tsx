@@ -1,43 +1,4 @@
-import {
-  ReactElement,
-  JSXElementConstructor,
-  ReactNode,
-  ReactPortal,
-} from "react";
-
-function Header() {
-  return (
-    <header className="flex w-full items-center justify-between self-stretch">
-      <h1 className=" text-6xl font-semibold">Dragon's Nest CO</h1>
-      <Navbar names={["Patch notes", "Rankings", "Marketplace"]}></Navbar>
-      <Right></Right>
-    </header>
-  );
-}
-
-function Navbar(props: { names: string[] }) {
-  return (
-    <div className="flex items-center gap-16">
-      {props.names.map((name, index) => {
-        return <p className=" text-3xl text-neutral-700"> {name}</p>;
-      })}
-    </div>
-  );
-}
-
-function Right() {
-  return (
-    <div
-      className="flex items-center justify-end gap-8"
-      style={{ width: "479.52px" }}
-    >
-      <Status></Status>
-      <span className="font-icons text-6xl">account_circle</span>
-    </div>
-  );
-}
-
-function Status() {
+export function Status() {
   return (
     <div className="flex items-center gap-6 rounded-2.5xl border-x border-y border-solid border-black px-6 py-4">
       <div className="flex items-center gap-2 text-green-800">
@@ -82,5 +43,3 @@ function Status() {
     </div>
   );
 }
-
-export default Header;
