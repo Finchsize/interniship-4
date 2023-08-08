@@ -31,6 +31,9 @@ public class UserController {
         return userService.findUserById(id);
     }
 
+    @GetMapping("/online")
+    public int getNumberOfPlayersOnline() { return userService.getNumberOfUsersOnline(); }
+
     @PostMapping("/login")
     public String loginUser(@RequestBody User user) {
         final Optional<User> specifiedUser = userService.findUserByName(user.getName());
