@@ -10,22 +10,10 @@ export function Register() {
   const [password, setPassword] = useState("");
   const [password1, setPassword1] = useState("");
 
-  const emailChange = (e: any) => {
-    setEmail(e.target.value);
-  };
-
-  const passwordChange = (e: any) => {
-    setPassword(e.target.value);
-  };
-
-  const password1Change = (e: any) => {
-    setPassword1(e.target.value);
-  };
-
   interface Token {
     id: number;
-    issuedAt: Date;
-    expires: Date;
+    exp: number;
+    iat: number;
   }
 
   const handleSubmit = async (e: any) => {
@@ -36,16 +24,27 @@ export function Register() {
         email: email,
         password: password,
       };
-      axios
-        .post(process.env.REACT_APP_API + "user/register", payload)
-        .then((response) => {
-          var jwtDecoded = jwt<Token>(response.data.token);
-          Cookies.set("jwt_authorization", response.data.token, {
-            expires: jwtDecoded.expires,
-            httpOnly: true,
-            sameSite: "lax",
+      try {
+        axios
+          .post(process.env.REACT_APP_API + "user/register", payload)
+          .then((response) => {
+            var responseParsed = JSON.parse(JSON.stringify(response));
+            if (typeof responseParsed != "string") {
+              console.log(responseParsed.status + responseParsed.error);
+            } else {
+              var jwtToken = responseParsed;
+              var jwtDecoded = jwt<Token>(jwtToken);
+              Cookies.set("jwt", jwtToken, {
+                expires: new Date(jwtDecoded.exp * 1000),
+                secure: true,
+                httpOnly: true,
+                sameSite: "lax",
+              });
+            }
           });
-        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -56,19 +55,25 @@ export function Register() {
         <input
           type="text"
           value={email}
-          onChange={emailChange}
+          onChange={(e: any) => {
+            setEmail(e.target.value);
+          }}
           placeholder="Email"
         ></input>
         <input
           type="password"
           value={password}
-          onChange={passwordChange}
+          onChange={(e: any) => {
+            setPassword(e.target.value);
+          }}
           placeholder="Password"
         ></input>
         <input
           type="password"
           value={password1}
-          onChange={password1Change}
+          onChange={(e: any) => {
+            setPassword1(e.target.value);
+          }}
           placeholder="Confirm password"
         ></input>
         <input type="submit" value="Register"></input>

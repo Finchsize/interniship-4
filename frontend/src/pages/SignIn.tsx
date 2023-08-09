@@ -1,36 +1,30 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useSWR from "swr";
+import axios from "axios";
 
 export function SignIn() {
   const [nickname, setNickname] = useState("");
   const navigate = useNavigate();
 
-  const nicknameChange = (e: any) => {
-    setNickname(e.target.value);
-  };
-
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    // ResponseStatusException(HttpStatus.CONFLICT, "No user with specified name found")
-    // try {
-    //   const { data, error } = useSWR([
-    //     "user/login",
-    //     {
-    //       method: "POST",
-    //       body: {
-    //         name: nickname,
-    //       },
-    //       headers: { "Content-Type": "application/json" },
-    //     },
-    //   ]);
-    // } catch (error) {
-    //   console.log(error);
-    //   if ((error = "No user with specified name found")) {
-    //     navigate("/register/" + nickname, { replace: true });
-    //   }
-    // }
-    navigate("/register/" + nickname, { replace: true });
+    try {
+      var payload = {
+        name: nickname,
+      };
+      axios
+        .get(process.env.REACT_APP_API + "user/exists/" + nickname)
+        .then((response) => {
+          var responseParsed = JSON.parse(JSON.stringify(response));
+          if (responseParsed == false) {
+            navigate("/sing-in/register/" + nickname, { replace: true });
+          } else {
+            navigate("/sing-in/login/" + nickname, { replace: true });
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -40,7 +34,9 @@ export function SignIn() {
         <input
           type="text"
           value={nickname}
-          onChange={nicknameChange}
+          onChange={(e: any) => {
+            setNickname(e.target.value);
+          }}
           placeholder="Nickname"
         ></input>
         <input type="submit" value="Continue"></input>

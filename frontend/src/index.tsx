@@ -11,10 +11,8 @@ import { Register } from "./pages/Register";
 import { SignIn } from "./pages/SignIn";
 import { Login } from "./pages/Login";
 
-const api = "http://localhost:8080/";
-
 const fetcher = (url: any, sentData: any) => {
-  fetch(api + url, sentData).then((res) => res.json());
+  fetch(process.env.REACT_APP_API + url, sentData).then((res) => res.json());
 };
 
 const router = createBrowserRouter([
@@ -27,11 +25,11 @@ const router = createBrowserRouter([
     element: <SignIn />,
   },
   {
-    path: "/register/:nickname",
+    path: "/sign-in/register/:nickname",
     element: <Register />,
   },
   {
-    path: "/login/:nickname",
+    path: "/sign-in/login/:nickname",
     element: <Login />,
   },
 ]);
