@@ -31,10 +31,15 @@ public class UserController {
         return userService.findUserById(id);
     }
 
+
     @GetMapping("/exists/{name}")
     public boolean userExistsByName(@PathVariable String name) {
         return userService.userExistsByName(name);
     }
+
+    @GetMapping("/online")
+    public Online getNumberOfPlayersOnline() { return userService.getNumberOfUsersOnline(); }
+
 
     @PostMapping("/login")
     public String loginUser(@RequestBody User user) {
