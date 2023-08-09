@@ -31,6 +31,11 @@ public class UserController {
         return userService.findUserById(id);
     }
 
+    @PostMapping("/exists")
+    public boolean userExistsByName(@RequestBody User user) {
+        return userService.userExistsByName(user.getName());
+    }
+
     @PostMapping("/login")
     public String loginUser(@RequestBody User user) {
         final Optional<User> specifiedUser = userService.findUserByName(user.getName());
