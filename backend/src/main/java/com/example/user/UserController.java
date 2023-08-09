@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @GetMapping("/online")
-    public int getNumberOfPlayersOnline() { return userService.getNumberOfUsersOnline(); }
+    public Online getNumberOfPlayersOnline() { return userService.getNumberOfUsersOnline(); }
 
     @PostMapping("/login")
     public String loginUser(@RequestBody User user) {
