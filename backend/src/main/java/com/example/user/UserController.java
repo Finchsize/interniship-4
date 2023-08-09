@@ -31,9 +31,9 @@ public class UserController {
         return userService.findUserById(id);
     }
 
-    @PostMapping("/exists")
-    public boolean userExistsByName(@RequestBody User user) {
-        return userService.userExistsByName(user.getName());
+    @GetMapping("/exists/{name}")
+    public boolean userExistsByName(@PathVariable String name) {
+        return userService.userExistsByName(name);
     }
 
     @PostMapping("/login")
