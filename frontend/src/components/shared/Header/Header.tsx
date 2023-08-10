@@ -12,12 +12,11 @@ export function Header() {
           </span>
 
           <h1 className="hidden text-3xl font-semibold lg:block">
-            Dragon's <br className="block lg:hidden" />
-            <span className="text-orange-600">Nest</span>
+            Dragon's <span className="text-orange-600">Nest</span>
           </h1>
         </div>
       </Link>
-      <div className="flex flex-row items-center justify-end">
+      <div className="flex flex-row items-center justify-end lg:hidden">
         <button className="font-icons text-5xl">menu</button>
       </div>
       <Navbar names={["Patch notes", "Rankings", "Marketplace"]}></Navbar>
