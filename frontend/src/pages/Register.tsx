@@ -26,7 +26,7 @@ export function Register() {
           .then((response) => {
             const data = response.data;
             if (typeof data != "string") {
-              console.log(data.status + data.error);
+              console.log(response.status);
             } else {
               const jwtToken = data;
               cookies.set("jwt", jwtToken, {
