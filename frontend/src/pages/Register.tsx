@@ -1,25 +1,21 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
-import jwt from "jwt-decode";
+import Cookies from "universal-cookie";
 
 export function Register() {
   const { nickname } = useParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password1, setPassword1] = useState("");
-
-  interface Token {
-    id: number;
-    exp: number;
-    iat: number;
-  }
+  const navigate = useNavigate();
+  const cookies = new Cookies();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (password == password1) {
-      var payload = {
+      const payload = {
         name: nickname,
         email: email,
         password: password,
@@ -28,18 +24,18 @@ export function Register() {
         axios
           .post(process.env.REACT_APP_API + "user/register", payload)
           .then((response) => {
-            var responseParsed = JSON.parse(JSON.stringify(response));
-            if (typeof responseParsed != "string") {
-              console.log(responseParsed.status + responseParsed.error);
+            const data = response.data;
+            if (typeof data != "string") {
+              console.log(data.status + data.error);
             } else {
-              var jwtToken = responseParsed;
-              var jwtDecoded = jwt<Token>(jwtToken);
-              Cookies.set("jwt", jwtToken, {
-                expires: new Date(jwtDecoded.exp * 1000),
+              const jwtToken = data;
+              cookies.set("jwt", jwtToken, {
+                expires: new Date(Date.now() + 5 * 60 * 1000),
                 secure: true,
                 httpOnly: true,
                 sameSite: "lax",
               });
+              navigate("/");
             }
           });
       } catch (error) {

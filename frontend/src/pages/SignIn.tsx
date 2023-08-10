@@ -9,17 +9,14 @@ export function SignIn() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      var payload = {
-        name: nickname,
-      };
       axios
         .get(process.env.REACT_APP_API + "user/exists/" + nickname)
         .then((response) => {
-          var responseParsed = JSON.parse(JSON.stringify(response));
-          if (responseParsed == false) {
-            navigate("/sing-in/register/" + nickname, { replace: true });
+          const data = response.data;
+          if (data == false) {
+            navigate("/sing-in/register/" + nickname);
           } else {
-            navigate("/sing-in/login/" + nickname, { replace: true });
+            navigate("/sing-in/login/" + nickname);
           }
         });
     } catch (error) {

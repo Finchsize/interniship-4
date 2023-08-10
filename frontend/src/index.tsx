@@ -25,11 +25,11 @@ const router = createBrowserRouter([
     element: <SignIn />,
   },
   {
-    path: "/sign-in/register/:nickname",
+    path: "/sing-in/register/:nickname",
     element: <Register />,
   },
   {
-    path: "/sign-in/login/:nickname",
+    path: "/sing-in/login/:nickname",
     element: <Login />,
   },
 ]);
