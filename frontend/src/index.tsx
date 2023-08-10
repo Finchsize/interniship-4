@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { SWRConfig } from "swr";
+import { fetcher } from "./lib/Fetcher";
 import "./styles/index.css";
 
 // Elements
@@ -10,10 +11,6 @@ import { HomePage } from "./pages/HomePage";
 import { Register } from "./pages/Register";
 import { SignIn } from "./pages/SignIn";
 import { Login } from "./pages/Login";
-
-const fetcher = (url: any, sentData: any) => {
-  fetch(process.env.REACT_APP_API + url, sentData).then((res) => res.json());
-};
 
 const router = createBrowserRouter([
   {
@@ -25,11 +22,11 @@ const router = createBrowserRouter([
     element: <SignIn />,
   },
   {
-    path: "/sing-in/register/:nickname",
+    path: "/sign-in/register/:nickname",
     element: <Register />,
   },
   {
-    path: "/sing-in/login/:nickname",
+    path: "/sign-in/login/:nickname",
     element: <Login />,
   },
 ]);

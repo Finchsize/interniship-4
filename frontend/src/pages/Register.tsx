@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import Cookies from "universal-cookie";
-import validator from "validator";
 import isEmail from "validator/lib/isEmail";
 
 type Inputs = {

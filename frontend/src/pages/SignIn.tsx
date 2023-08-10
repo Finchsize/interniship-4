@@ -14,9 +14,9 @@ export function SignIn() {
         .then((response) => {
           const data = response.data;
           if (data == false) {
-            navigate("/sing-in/register/" + nickname);
+            navigate("/sign-in/register/" + nickname);
           } else {
-            navigate("/sing-in/login/" + nickname);
+            navigate("/sign-in/login/" + nickname);
           }
         });
     } catch (error) {
