@@ -1,34 +1,50 @@
-import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import validator from "validator";
+import isEmail from "validator/lib/isEmail";
+
+type Inputs = {
+  email: string;
+  password: string;
+  confirm_password: string;
+};
 
 export function Register() {
   const { nickname } = useParams();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [password1, setPassword1] = useState("");
   const navigate = useNavigate();
   const cookies = new Cookies();
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    if (password == password1) {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = (formData) => {
+    if (
+      typeof formData.email != "string" ||
+      typeof formData.password != "string" ||
+      typeof formData.confirm_password != "string"
+    ) {
+      console.log("Form validation error");
+    } else {
       const payload = {
         name: nickname,
-        email: email,
-        password: password,
+        email: formData.email,
+        password: formData.password,
       };
       try {
         axios
           .post(process.env.REACT_APP_API + "user/register", payload)
           .then((response) => {
-            const data = response.data;
-            if (typeof data != "string") {
+            const jwtToken = response.data;
+            if (typeof jwtToken != "string") {
               console.log(response.status);
             } else {
-              const jwtToken = data;
               cookies.set("jwt", jwtToken, {
                 expires: new Date(Date.now() + 5 * 60 * 1000),
                 secure: true,
@@ -47,32 +63,40 @@ export function Register() {
   return (
     <div>
       <h1>Welcome</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <input
-          type="text"
-          value={email}
-          onChange={(e: any) => {
-            setEmail(e.target.value);
-          }}
           placeholder="Email"
-        ></input>
+          {...register("email", {
+            required: "Email is required",
+            validate: (value: string) => {
+              if (!isEmail(value)) return "Incorrect email";
+            },
+          })}
+        />
+        <p>{errors.email?.message}</p>
         <input
-          type="password"
-          value={password}
-          onChange={(e: any) => {
-            setPassword(e.target.value);
-          }}
           placeholder="Password"
-        ></input>
+          {...register("password", {
+            required: "Password is required",
+            minLength: {
+              value: 8,
+              message: "Minimum password length is 8",
+            },
+          })}
+        />
+        <p>{errors.password?.message}</p>
         <input
-          type="password"
-          value={password1}
-          onChange={(e: any) => {
-            setPassword1(e.target.value);
-          }}
           placeholder="Confirm password"
-        ></input>
-        <input type="submit" value="Register"></input>
+          {...register("confirm_password", {
+            required: "You must confirm the password",
+            validate: (value: string) => {
+              if (value != watch("password"))
+                return "Your passwords do no match";
+            },
+          })}
+        />
+        <p>{errors.confirm_password?.message}</p>
+        <input type="submit" value="Register" />
       </form>
     </div>
   );
