@@ -1,10 +1,12 @@
 const Button = ({
   text,
   type,
+  fullWidth,
   size,
   onClick,
 }: {
   text: string;
+  fullWidth?: boolean;
   type?: "primary" | "secondary";
   size?: "sm" | "base" | "lg" | "xl" | "2xl";
   onClick?: () => void;
@@ -22,7 +24,9 @@ const Button = ({
           : size === "2xl"
           ? "text-2xl"
           : "text-base"
-      } flex w-min whitespace-nowrap rounded-full bg-orange-600 px-5 py-1.5 font-semibold text-white transition hover:bg-orange-700`}
+      } ${
+        fullWidth ? "w-full" : "w-min"
+      } flex justify-center whitespace-nowrap rounded-full bg-orange-600 px-5 py-2 font-semibold text-white transition hover:bg-orange-700`}
     >
       {text}
     </button>

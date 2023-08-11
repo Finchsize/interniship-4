@@ -1,4 +1,4 @@
-import { Status } from "./Status";
+import Status from "../components/Status";
 
 export default function Right() {
   return (
