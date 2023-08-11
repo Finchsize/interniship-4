@@ -1,12 +1,9 @@
 import { Status } from "./Status";
 
-export function Right() {
+export default function Right() {
   return (
-    <div
-      className="flex items-center justify-end gap-8"
-      style={{ width: "479.52px" }}
-    >
-      <Status></Status>
+    <div className="hidden items-center justify-end gap-4 lg:flex">
+      <Status />
       <a href="/sign-in">
         <button className="rounded-full bg-orange-600 px-5 py-1.5 font-semibold text-white transition hover:bg-orange-700">
           Sign in

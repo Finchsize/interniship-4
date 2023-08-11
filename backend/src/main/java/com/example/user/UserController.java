@@ -31,6 +31,16 @@ public class UserController {
         return userService.findUserById(id);
     }
 
+
+    @GetMapping("/exists/{name}")
+    public boolean userExistsByName(@PathVariable String name) {
+        return userService.userExistsByName(name);
+    }
+
+    @GetMapping("/online")
+    public Online getNumberOfPlayersOnline() { return userService.getNumberOfUsersOnline(); }
+
+
     @PostMapping("/login")
     public String loginUser(@RequestBody User user) {
         final Optional<User> specifiedUser = userService.findUserByName(user.getName());
@@ -44,7 +54,7 @@ public class UserController {
         }
 
         try {
-            return JWT.create().withClaim("id", specifiedUser.get().getId()).withIssuedAt(new Date()).withExpiresAt(new Date(System.currentTimeMillis() + 5000L)).sign(jwtAlgorithm);
+            return JWT.create().withClaim("id", specifiedUser.get().getId()).withIssuedAt(new Date()).withExpiresAt(new Date(System.currentTimeMillis() + 60 * 5 * 1000L)).sign(jwtAlgorithm);
         } catch (JWTCreationException exception) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Encountered error while creating a JWT.", exception);
         }
@@ -54,7 +64,7 @@ public class UserController {
     public String registerUser(@RequestBody User user) {
         User newUser = userService.saveUser(user);
         try {
-            return JWT.create().withClaim("id", newUser.getId()).withIssuedAt(new Date()).withExpiresAt(new Date(System.currentTimeMillis() + 5000L)).sign(jwtAlgorithm);
+            return JWT.create().withClaim("id", newUser.getId()).withIssuedAt(new Date()).withExpiresAt(new Date(System.currentTimeMillis() + 60 * 5 * 1000L)).sign(jwtAlgorithm);
         } catch (JWTCreationException exception) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Encountered error while creating a JWT.", exception);
         }

@@ -1,13 +1,17 @@
-export function Navbar(props: { names: string[] }) {
+import { Link } from "react-router-dom";
+
+const Navbar = ({ names }: { names: string[] }) => {
   return (
-    <div className="flex items-center gap-16">
-      {props.names.map((name, key) => {
+    <div className="hidden items-center justify-center gap-16 lg:flex">
+      {names.map((name, key) => {
         return (
-          <a key={key} href="/">
-            <p className=" text-3xl text-neutral-700">{name}</p>
-          </a>
+          <Link key={key} to="/">
+            <p className="font-medium text-neutral-700">{name}</p>
+          </Link>
         );
       })}
     </div>
   );
-}
+};
+
+export default Navbar;

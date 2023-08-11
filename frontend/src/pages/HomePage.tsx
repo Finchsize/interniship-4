@@ -1,58 +1,44 @@
-import { Header } from "../components/shared/Header";
-import { Card } from "../components/Card";
 import background from "../images/co-background.jpg";
+import Button from "../components/Button";
+import Card from "../components/Card";
 
 export function HomePage() {
   var lorem =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam mi elit, iaculis ac bibendum et, placerat eu leo.";
   return (
-    <div className="flex flex-col items-start gap-24 p-16">
-      <Header></Header>
-      <div className="flex items-start gap-16 self-stretch">
-        <div
-          className="flex w-1/2 flex-col items-start gap-16 self-stretch"
-          style={{ flex: "1 0 0" }}
-        >
+    <>
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-16">
+        <div className="order-1 flex flex-col justify-center gap-8 md:order-first">
           <div className="flex flex-col items-start justify-center gap-4">
-            <h1 className=" text-6xl font-semibold">About</h1>
-            <p
-              className=" self-stretch text-left text-4xl text-gray-700"
-              style={{ lineHeight: "150%" }}
-            >
+            <h1 className="text-5xl font-semibold">About</h1>
+            <p className="text-left text-xl text-gray-700">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
               mi elit, iaculis ac bibendum et, placerat eu leo. Aliquam erat
               volutpat. In varius, libero et fermentum facilisis, nisi dui
               laoreet nisl, sed lacinia ipsum mi id ligula.
             </p>
           </div>
-          <button className="flex items-start rounded-4xl bg-orange-600 px-16 py-8 text-4xl font-semibold text-white">
-            Download Now
-          </button>
+          <Button text="Download Now" size={"lg"} />
         </div>
-        <div
-          className=" image w-full rounded-4xl"
-          style={{
-            flex: "1 0 0",
-            height: "36rem",
-            background: `url(${background})`,
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "100% 100%",
-          }}
-        ></div>
+        <img
+          src={background}
+          alt=""
+          className="h-96 w-full rounded-4xl object-cover"
+        />
       </div>
-      <div className="flex flex-col items-start gap-12 self-stretch">
-        <div className="flex flex-col items-start justify-center gap-4">
-          <h1 className=" text-6xl font-semibold">Keep track of the game</h1>
-          <h2 className=" text-4xl font-semibold text-gray-700">
+      <div className="flex flex-col items-start gap-8">
+        <div className="flex flex-col items-start justify-center gap-2">
+          <h1 className=" text-5xl font-semibold">Keep track of the game</h1>
+          <h2 className=" text-2xl text-gray-700">
             Become a better player everyday.
           </h2>
         </div>
-        <div className="flex items-start gap-16 self-stretch">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <Card title="Patch notes" desc={lorem} icon="news"></Card>
           <Card title="Rankings" desc={lorem} icon="social_leaderboard"></Card>
           <Card title="Marketplace" desc={lorem} icon="storefront"></Card>
         </div>
       </div>
-    </div>
+    </>
   );
 }

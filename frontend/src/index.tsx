@@ -7,6 +7,7 @@ import { fetcher } from "./lib/Fetcher";
 import "./styles/index.css";
 
 // Elements
+import Layout from "./components/Layout";
 import { HomePage } from "./pages/HomePage";
 import { Register } from "./pages/Register";
 import { SignIn } from "./pages/SignIn";
@@ -14,8 +15,13 @@ import { Login } from "./pages/Login";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <HomePage />,
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+    ],
   },
   {
     path: "/sign-in",
