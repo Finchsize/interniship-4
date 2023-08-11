@@ -1,5 +1,4 @@
 import { Status } from "./Status";
-import { Account } from "./Account";
 
 export function Right() {
   return (
@@ -8,7 +7,11 @@ export function Right() {
       style={{ width: "479.52px" }}
     >
       <Status></Status>
-      <Account></Account>
+      <a href="/sign-in">
+        <button className="rounded-full bg-orange-600 px-5 py-1.5 font-semibold text-white transition hover:bg-orange-700">
+          Sign in
+        </button>
+      </a>
     </div>
   );
 }
