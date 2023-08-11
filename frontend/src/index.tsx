@@ -2,11 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { SWRConfig } from "swr";
+import { fetcher } from "./lib/Fetcher";
 import "./styles/index.css";
 
 // Elements
 import Layout from "./components/Layout";
 import { HomePage } from "./pages/HomePage";
+import { Register } from "./pages/Register";
+import { SignIn } from "./pages/SignIn";
+import { Login } from "./pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +23,18 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/sign-in",
+    element: <SignIn />,
+  },
+  {
+    path: "/sign-in/register/:nickname",
+    element: <Register />,
+  },
+  {
+    path: "/sign-in/login/:nickname",
+    element: <Login />,
+  },
 ]);
 
 const root = ReactDOM.createRoot(
@@ -25,7 +42,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <SWRConfig value={{ fetcher }}>
+      <RouterProvider router={router} />
+    </SWRConfig>
   </React.StrictMode>,
 );
 
