@@ -18,7 +18,7 @@ export function HomePage() {
               laoreet nisl, sed lacinia ipsum mi id ligula.
             </p>
           </div>
-          <Button text="Download Now" size={"base"} />
+          <Button text="Download Now" size={"lg"} />
         </div>
         <img
           src={background}
