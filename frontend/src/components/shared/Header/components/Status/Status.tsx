@@ -1,6 +1,6 @@
-export function Status() {
+export default function Status() {
   return (
-    <div className="flex flex-row gap-4 rounded-full border-2 border-neutral-300 px-5 py-1.5">
+    <div className="flex flex-row items-center justify-around gap-4 rounded-full border-2 border-neutral-300 px-5 py-1.5">
       <div className="flex items-center gap-2 text-green-800">
         <div className="relative flex items-center justify-center">
           <span className="h-2 w-2 rounded-full bg-green-800" />

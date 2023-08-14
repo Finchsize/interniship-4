@@ -3,10 +3,10 @@ import { Header } from "../shared/Header";
 
 export default function Layout() {
   return (
-    <div className="flex min-h-screen flex-col items-center p-8 antialiased">
-      <div className="container flex w-full flex-col gap-8 md:gap-16">
+    <div className="flex min-h-screen flex-col items-center antialiased">
+      <div className="container flex w-full flex-col md:gap-8">
         <Header />
-        <div className="flex w-full flex-col gap-16">
+        <div className="-z-20 flex w-full flex-col gap-16 px-8 pb-8">
           <Outlet />
         </div>
       </div>
