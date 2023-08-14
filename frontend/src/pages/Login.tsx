@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import jwt from "jwt-decode";
 
 type Inputs = {
   password: string;
@@ -19,13 +20,19 @@ export function Login() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (formData) => {
-    if (typeof formData.password != "string") {
+  interface Token {
+    id: number;
+    exp: number;
+    iat: number;
+  }
+
+  const onSubmit: SubmitHandler<Inputs> = ({ password }) => {
+    if (typeof password != "string") {
       console.log("Form validation error");
     } else {
       const payload = {
         name: nickname,
-        password: formData.password,
+        password: password,
       };
       try {
         axios
@@ -35,8 +42,9 @@ export function Login() {
             if (typeof jwtToken != "string") {
               console.log(response.status);
             } else {
+              const jwtDecoded = jwt<Token>(jwtToken);
               cookies.set("jwt", jwtToken, {
-                expires: new Date(Date.now() + 5 * 60 * 1000),
+                expires: new Date(jwtDecoded.exp * 1000),
                 secure: true,
                 httpOnly: true,
                 sameSite: "lax",

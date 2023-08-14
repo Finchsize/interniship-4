@@ -15,19 +15,19 @@ export function SignIn() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (formData) => {
-    if (typeof formData.nickname != "string") {
+  const onSubmit: SubmitHandler<Inputs> = ({ nickname }) => {
+    if (typeof nickname != "string") {
       console.log("Form validation error");
     } else {
       try {
         axios
-          .get(process.env.REACT_APP_API + "user/exists/" + formData.nickname)
+          .get(process.env.REACT_APP_API + "user/exists/" + nickname)
           .then((response) => {
             const data = response.data;
             if (data == false) {
-              navigate("/sign-in/register/" + formData.nickname);
+              navigate("/sign-in/register/" + nickname);
             } else {
-              navigate("/sign-in/login/" + formData.nickname);
+              navigate("/sign-in/login/" + nickname);
             }
           });
       } catch (error) {
