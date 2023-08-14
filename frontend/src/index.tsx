@@ -14,6 +14,7 @@ import { Register } from "./pages/Register";
 import { SignIn } from "./pages/SignIn";
 import { Login } from "./pages/Login";
 import { ResetPassword } from "./pages/ResetPassword";
+import User, { loader as userLoader } from "./pages/User";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,11 @@ const router = createBrowserRouter([
         element: <Login />,
       },
     ],
+  },
+  {
+    path: "/user/:nickname",
+    element: <User />,
+    loader: userLoader,
   },
   {
     path: "/reset-password",

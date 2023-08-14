@@ -29,10 +29,8 @@ public class UserController {
         return userService.findUsers();
     }
 
-    @GetMapping("/{id}")
-    public Optional<User> findById(@PathVariable int id) {
-        return userService.findUserById(id);
-    }
+    @GetMapping("/{name}")
+    public Optional<User> getByName(@PathVariable String name) { return userService.getUserByName(name); }
 
 
     @GetMapping("/exists/{name}")
