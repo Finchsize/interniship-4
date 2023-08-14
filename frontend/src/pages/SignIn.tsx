@@ -1,41 +1,52 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 
+type Inputs = {
+  nickname: string;
+};
+
 export function SignIn() {
-  const [nickname, setNickname] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    try {
-      axios
-        .get(process.env.REACT_APP_API + "user/exists/" + nickname)
-        .then((response) => {
-          const data = response.data;
-          if (data == false) {
-            navigate("/sign-in/register/" + nickname);
-          } else {
-            navigate("/sign-in/login/" + nickname);
-          }
-        });
-    } catch (error) {
-      console.log(error);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = ({ nickname }) => {
+    if (typeof nickname != "string") {
+      console.log("Form validation error");
+    } else {
+      try {
+        axios
+          .get(process.env.REACT_APP_API + "user/exists/" + nickname)
+          .then((response) => {
+            const data = response.data;
+            if (data == false) {
+              navigate("/sign-in/register/" + nickname);
+            } else {
+              navigate("/sign-in/login/" + nickname);
+            }
+          });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   return (
     <div>
       <h1>Sign in</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <input
-          type="text"
-          value={nickname}
-          onChange={(e: any) => {
-            setNickname(e.target.value);
-          }}
           placeholder="Nickname"
-        ></input>
+          {...register("nickname", {
+            required: "Nickname is required",
+          })}
+        />
+        <p>{errors.nickname?.message}</p>
         <input type="submit" value="Continue"></input>
       </form>
     </div>
