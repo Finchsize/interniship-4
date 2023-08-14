@@ -12,6 +12,7 @@ import { HomePage } from "./pages/HomePage";
 import { Register } from "./pages/Register";
 import { SignIn } from "./pages/SignIn";
 import { Login } from "./pages/Login";
+import User, { loader as userLoader } from "./pages/User";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,11 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
     ],
+  },
+  {
+    path: "/user/:nickname",
+    element: <User />,
+    loader: userLoader,
   },
   {
     path: "/sign-in",
