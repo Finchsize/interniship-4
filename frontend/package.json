@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@tailwindcss/forms": "^0.5.4",
     "@types/js-cookie": "^3.0.3",
     "@types/validator": "^13.11.1",
     "prettier": "^3.0.1",

@@ -7,7 +7,8 @@ import { fetcher } from "./lib/Fetcher";
 import "./styles/index.css";
 
 // Elements
-import Layout from "./components/Layout";
+import Layout from "./components/Layouts/Layout";
+import OnboardingLayout from "./components/Layouts/Onboarding Layout";
 import { HomePage } from "./pages/HomePage";
 import { Register } from "./pages/Register";
 import { SignIn } from "./pages/SignIn";
@@ -24,16 +25,21 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/sign-in",
-    element: <SignIn />,
-  },
-  {
-    path: "/sign-in/register/:nickname",
-    element: <Register />,
-  },
-  {
-    path: "/sign-in/login/:nickname",
-    element: <Login />,
+    element: <OnboardingLayout />,
+    children: [
+      {
+        path: "/sign-in",
+        element: <SignIn />,
+      },
+      {
+        path: "/sign-in/register/:nickname",
+        element: <Register />,
+      },
+      {
+        path: "/sign-in/login/:nickname",
+        element: <Login />,
+      },
+    ],
   },
 ]);
 

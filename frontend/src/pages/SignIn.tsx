@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
+import Button from "../components/Button";
 
 type Inputs = {
   nickname: string;
@@ -37,17 +38,24 @@ export function SignIn() {
   };
 
   return (
-    <div>
-      <h1>Sign in</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="space-y-8">
+      <div className="space-y-2">
+        <h1 className="text-4xl font-semibold">Sign in or sign up</h1>
+        <h2 className="text-lg font-medium text-neutral-700">
+          Let's start with your nickname.
+        </h2>
+      </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <input
-          placeholder="Nickname"
+          type="text"
+          className="w-full rounded-full px-5 py-2 focus:border-orange-600 focus:ring-orange-600"
           {...register("nickname", {
             required: "Nickname is required",
           })}
-        />
+          placeholder="Nickname"
+        ></input>
         <p>{errors.nickname?.message}</p>
-        <input type="submit" value="Continue"></input>
+        <Button fullWidth text="Continue" type="submit" />
       </form>
     </div>
   );
