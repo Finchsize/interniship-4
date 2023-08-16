@@ -3,7 +3,10 @@ package com.example.user;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -37,14 +40,21 @@ public class UserController {
         return userService.userExistsByName(name);
     }
 
+
+    @Value
+    @Builder
+    @Jacksonized
+    static class ResetPasswordDTO {
+        String email;
+    }
     @PutMapping("/reset-password")
     @ResponseStatus(HttpStatus.OK)
-    public String resetPassword(@RequestBody User user) {
-        if(!userService.userExistsByEmail(user.getEmail())) {
+    public String resetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) {
+        if(!userService.userExistsByEmail(resetPasswordDTO.getEmail())) {
             return "error";
         }
         else {
-            return userService.setRandomPassword(30, user.getEmail());
+            return userService.setRandomPassword(30, resetPasswordDTO.getEmail());
         }
     }
 
