@@ -19,6 +19,7 @@ import java.security.SecureRandom;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final static int RANDOM_PASSWORD_LENGTH = 30;
 
     public List<User> findUsers() {
         return userRepository.findAll();
@@ -32,7 +33,7 @@ public class UserService {
         return userRepository.existsByName(name);
     }
 
-    public String setRandomPassword(int length, String email) {
+    public String setRandomPassword(String email) {
         if(!userRepository.existsByEmail(email)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user with specified email found");
         }
@@ -41,7 +42,7 @@ public class UserService {
             SecureRandom random = new SecureRandom();
             StringBuilder password = new StringBuilder();
 
-            for (int i = 0; i < length; i++)
+            for (int i = 0; i < RANDOM_PASSWORD_LENGTH; i++)
             {
                 int randomIndex = random.nextInt(chars.length());
                 password.append(chars.charAt(randomIndex));

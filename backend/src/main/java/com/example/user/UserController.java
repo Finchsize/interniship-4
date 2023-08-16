@@ -50,7 +50,7 @@ public class UserController {
     @PutMapping("/reset-password")
     @ResponseStatus(HttpStatus.OK)
     public String resetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) {
-        return userService.setRandomPassword(30, resetPasswordDTO.getEmail());
+        return userService.setRandomPassword(resetPasswordDTO.getEmail());
     }
 
     @GetMapping("/online")
