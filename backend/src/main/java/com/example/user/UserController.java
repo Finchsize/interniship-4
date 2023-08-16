@@ -37,6 +37,17 @@ public class UserController {
         return userService.userExistsByName(name);
     }
 
+    @PutMapping("/reset-password")
+    @ResponseStatus(HttpStatus.OK)
+    public String resetPassword(@RequestBody User user) {
+        if(!userService.userExistsByEmail(user.getEmail())) {
+            return "error";
+        }
+        else {
+            return userService.setRandomPassword(30, user.getEmail());
+        }
+    }
+
     @GetMapping("/online")
     public Online getNumberOfPlayersOnline() { return userService.getNumberOfUsersOnline(); }
 
