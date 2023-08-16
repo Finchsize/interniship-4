@@ -34,7 +34,7 @@ public class UserService {
 
     public String setRandomPassword(int length, String email) {
         if(!userRepository.existsByEmail(email)) {
-            return "error";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user with specified email found");
         }
         else {
             final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
