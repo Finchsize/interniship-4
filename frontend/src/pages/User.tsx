@@ -4,7 +4,7 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 export const loader = async ({ params }: { params: Params }) => {
-  const data = axios
+  const data = await axios
     .get(`${process.env.REACT_APP_API}user/${params.nickname}`)
     .then((response) => {
       return response.data;
@@ -26,8 +26,23 @@ const User = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    if (data.newPassword !== data.confirmNewPassword) {
+      setError("confirmNewPassword", {
+        type: "value",
+        message: "Passwords do not match",
+      });
+      return;
+    }
+    await axios
+      .post(`${process.env.REACT_APP_API}/user/change-password`)
+      .then((response) => {
+        console.log(response);
+        return response;
+      });
+  };
   return (
     <div>
       <p>{user.name}</p>
@@ -49,11 +64,25 @@ const User = () => {
             </p>
             <div className="flex flex-col gap-4">
               <label>Old password</label>
-              <input {...register("oldPassword")} />
+              <input
+                type="password"
+                {...register("oldPassword", { required: true })}
+              />
               <label>New password</label>
-              <input {...register("newPassword")} />
+              <input
+                type="password"
+                {...register("newPassword", { required: true })}
+              />
               <label>Confirm new password</label>
-              <input {...register("confirmNewPassword")} />
+              <input
+                type="password"
+                {...register("confirmNewPassword", { required: true })}
+              />
+              {errors.confirmNewPassword && (
+                <p className="text-xs text-red-600">
+                  {errors.confirmNewPassword.message}
+                </p>
+              )}
               <input type="submit" />
             </div>
           </form>
