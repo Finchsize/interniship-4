@@ -23,7 +23,9 @@ export function ResetPassword() {
     } else {
       try {
         axios
-          .get(process.env.REACT_APP_API + "user/reset-password/" + email)
+          .put(process.env.REACT_APP_API + "user/reset-password", {
+            email: email,
+          })
           .then((response) => {
             const data = response.data;
             if (typeof data != "string") {
