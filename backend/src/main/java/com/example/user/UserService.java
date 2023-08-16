@@ -54,11 +54,25 @@ public class UserService {
     }
 
     public User saveUser(User user) {
+
         if (userRepository.existsByEmail(user.getEmail()) || userRepository.existsByName(user.getName())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User already exists");
         }
         return userRepository.save(user);
     }
 
+    public void changePassword(UserController.ChangePasswordDTO changePasswordDTO) {
+        final var nickname = changePasswordDTO.getNickname();
+        final var oldPassword = changePasswordDTO.getOldPassword();
+        Optional<User> user = userRepository.findByName(nickname);
+        if (user.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an user with this name");
+        }
+        if (!user.get().getPassword().equals(oldPassword)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The old password does not match");
+        }
+        user.get().setPassword(changePasswordDTO.getNewPassword());
+        userRepository.save(user.get());
+    }
 }
 

@@ -3,7 +3,10 @@ package com.example.user;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -40,6 +43,19 @@ public class UserController {
     @GetMapping("/online")
     public Online getNumberOfPlayersOnline() { return userService.getNumberOfUsersOnline(); }
 
+    @PostMapping("/change-password")
+    public void changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
+        userService.changePassword(changePasswordDTO);
+    }
+
+    @Value
+    @Builder
+    @Jacksonized
+    static class ChangePasswordDTO {
+        String nickname;
+        String oldPassword;
+        String newPassword;
+    }
 
     @PostMapping("/login")
     public String loginUser(@RequestBody User user) {
