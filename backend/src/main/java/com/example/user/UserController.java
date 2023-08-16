@@ -50,12 +50,7 @@ public class UserController {
     @PutMapping("/reset-password")
     @ResponseStatus(HttpStatus.OK)
     public String resetPassword(@RequestBody ResetPasswordDTO resetPasswordDTO) {
-        if(!userService.userExistsByEmail(resetPasswordDTO.getEmail())) {
-            return "error";
-        }
-        else {
-            return userService.setRandomPassword(30, resetPasswordDTO.getEmail());
-        }
+        return userService.setRandomPassword(30, resetPasswordDTO.getEmail());
     }
 
     @GetMapping("/online")

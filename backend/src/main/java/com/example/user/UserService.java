@@ -32,26 +32,25 @@ public class UserService {
         return userRepository.existsByName(name);
     }
 
-    public boolean userExistsByEmail(String email) {
-        return userRepository.existsByEmail(email);
-    }
-
-    public Optional<User> findUserByEmail(String email) { return userRepository.findByEmail(email); }
-
     public String setRandomPassword(int length, String email) {
-        final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        SecureRandom random = new SecureRandom();
-        StringBuilder password = new StringBuilder();
-
-        for (int i = 0; i < length; i++)
-        {
-            int randomIndex = random.nextInt(chars.length());
-            password.append(chars.charAt(randomIndex));
+        if(!userRepository.existsByEmail(email)) {
+            return "error";
         }
+        else {
+            final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            SecureRandom random = new SecureRandom();
+            StringBuilder password = new StringBuilder();
 
-        userRepository.updatePasswordByEmail(password.toString(), email);
+            for (int i = 0; i < length; i++)
+            {
+                int randomIndex = random.nextInt(chars.length());
+                password.append(chars.charAt(randomIndex));
+            }
 
-        return password.toString();
+            userRepository.updatePasswordByEmail(password.toString(), email);
+
+            return password.toString();
+        }
     }
 
     public Optional<User> findUserByName(String name) {
