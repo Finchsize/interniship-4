@@ -2,6 +2,7 @@ import { Params, useLoaderData } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import Modal from "../components/Modal";
 
 export const loader = async ({ params }: { params: Params }) => {
   const data = await axios
@@ -21,6 +22,7 @@ type Inputs = {
 const User = () => {
   const user = useLoaderData() as { name: string; email: string };
   const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false);
+  const [showEmailModal, setShowEmailModal] = useState<boolean>(false);
 
   const {
     register,
@@ -48,20 +50,30 @@ const User = () => {
       <p>{user.name}</p>
       <p>{user.email}</p>
       <div className="flex flex-row gap-4">
-        <button type="button">Change email</button>
+        <button type="button" onClick={() => setShowEmailModal(true)}>
+          Change email
+        </button>
         <button type="button" onClick={() => setShowPasswordModal(true)}>
           Change password
         </button>
       </div>
       {showPasswordModal && (
-        <div className="fixed inset-0 flex flex-col items-center justify-center bg-black/25 p-8 backdrop-blur-sm">
+        <Modal>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex w-full max-w-sm flex-col gap-8 rounded-2xl bg-white p-8"
+            className="flex flex-col gap-8"
           >
-            <p className="text-center text-2xl font-semibold">
-              Change password
-            </p>
+            <div className="flex w-full flex-row items-center justify-between gap-4">
+              <p className="text-center text-2xl font-semibold">
+                Change password
+              </p>
+              <button
+                className="font-icons text-4xl"
+                onClick={() => setShowPasswordModal(false)}
+              >
+                clear
+              </button>
+            </div>
             <div className="flex flex-col gap-4">
               <label>Old password</label>
               <input
@@ -86,7 +98,27 @@ const User = () => {
               <input type="submit" />
             </div>
           </form>
-        </div>
+        </Modal>
+      )}
+      {showEmailModal && (
+        <Modal>
+          <form className="flex flex-col gap-8">
+            <div className="flex w-full flex-row items-center justify-between gap-4">
+              <p className="text-center text-2xl font-semibold">Change email</p>
+              <button
+                className="font-icons text-4xl"
+                onClick={() => setShowEmailModal(false)}
+              >
+                clear
+              </button>
+            </div>
+            <div className="flex flex-col gap-4">
+              <label>Provide new email</label>
+              <input type="email" title="email" />
+              <input type="submit" />
+            </div>
+          </form>
+        </Modal>
       )}
     </div>
   );
