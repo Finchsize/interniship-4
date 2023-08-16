@@ -7,12 +7,15 @@ const Button = ({
 }: {
   text: string;
   fullWidth?: boolean;
-  type?: "primary" | "secondary";
+  type?: "button" | "submit";
   size?: "sm" | "base" | "lg" | "xl" | "2xl";
   onClick?: () => void;
 }) => {
   return (
     <button
+      type={
+        type === "button" ? "button" : type === "submit" ? "submit" : "button"
+      }
       onClick={onClick}
       className={`${
         size === "sm"
