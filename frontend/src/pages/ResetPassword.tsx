@@ -21,26 +21,20 @@ export function ResetPassword() {
     if (typeof email != "string") {
       console.log("Form validation error");
     } else {
-      try {
-        axios
-          .put(process.env.REACT_APP_API + "user/reset-password", {
-            email: email,
-          })
-          .then((response) => {
-            const data = response.data;
-            if (typeof data != "string") {
-              console.log(response.status);
-            } else {
-              if (data == "error") {
-                setTempPassword("No user with specified email address");
-              } else {
-                setTempPassword("Your temporary password: " + data);
-              }
-            }
-          });
-      } catch (error) {
-        console.log(error);
-      }
+      axios
+        .put(process.env.REACT_APP_API + "user/reset-password", {
+          email: email,
+        })
+        .then((response) => {
+          const data = response.data;
+          setTempPassword("Your temporary password: " + data);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status == 404)
+            setTempPassword("No user found with specified email address");
+          else setTempPassword("Unknown error");
+        });
     }
   };
 
