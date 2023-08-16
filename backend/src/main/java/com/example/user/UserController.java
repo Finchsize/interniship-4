@@ -43,7 +43,7 @@ public class UserController {
     @GetMapping("/online")
     public Online getNumberOfPlayersOnline() { return userService.getNumberOfUsersOnline(); }
 
-    @PostMapping("/change-password")
+    @PutMapping("/change-password")
     public void changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
         userService.changePassword(changePasswordDTO);
     }
