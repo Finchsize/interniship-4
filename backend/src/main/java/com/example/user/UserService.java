@@ -13,10 +13,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
+import java.security.SecureRandom;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final static int RANDOM_PASSWORD_LENGTH = 30;
 
     public List<User> findUsers() {
         return userRepository.findAll();
@@ -28,6 +31,27 @@ public class UserService {
 
     public boolean userExistsByName(String name) {
         return userRepository.existsByName(name);
+    }
+
+    public String setRandomPassword(String email) {
+        if(!userRepository.existsByEmail(email)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user with specified email found");
+        }
+        else {
+            final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            SecureRandom random = new SecureRandom();
+            StringBuilder password = new StringBuilder();
+
+            for (int i = 0; i < RANDOM_PASSWORD_LENGTH; i++)
+            {
+                int randomIndex = random.nextInt(chars.length());
+                password.append(chars.charAt(randomIndex));
+            }
+
+            userRepository.updatePasswordByEmail(password.toString(), email);
+
+            return password.toString();
+        }
     }
 
     public Optional<User> findUserByName(String name) {
