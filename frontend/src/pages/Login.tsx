@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
@@ -70,6 +70,8 @@ export function Login() {
         />
         <p>{errors.password?.message}</p>
         <input type="submit" value="Log in" />
+        <br />
+        <Link to="/reset-password">Reset password</Link>
       </form>
     </div>
   );
