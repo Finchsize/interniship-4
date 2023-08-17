@@ -1,22 +1,23 @@
 import Modal from "../../../components/Modal";
 import axios from "axios";
-import { useContext, useId } from "react";
+import { useId } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { NameContext } from "../User";
 import Button from "../../../components/Button/Button";
+import { useNavigate, useParams } from "react-router-dom";
 
 type Inputs = {
   email: string;
 };
 
-const ChangeEmail = ({ onClose }: { onClose: () => void }) => {
-  const username = useContext(NameContext);
+const ChangeEmail = () => {
+  const { name } = useParams();
+  const navigate = useNavigate();
   const id = useId();
   const { register, handleSubmit } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await axios
       .post(`${process.env.REACT_APP_API}user/change-email`, {
-        name: username,
+        name: name,
         email: data.email,
       })
       .then((response) => {
@@ -29,7 +30,7 @@ const ChangeEmail = ({ onClose }: { onClose: () => void }) => {
       <div className="space-y-8">
         <div className="flex w-full flex-row items-center justify-between gap-4">
           <p className="text-center text-2xl font-semibold">Change email</p>
-          <button className="font-icons text-4xl" onClick={onClose}>
+          <button className="font-icons text-4xl" onClick={() => navigate(-1)}>
             clear
           </button>
         </div>

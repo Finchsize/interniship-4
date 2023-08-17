@@ -2,6 +2,7 @@ import Modal from "../../../components/Modal";
 import axios from "axios";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../../components/Button/Button";
+import { useNavigate, useParams } from "react-router-dom";
 
 type Inputs = {
   oldPassword: string;
@@ -9,7 +10,9 @@ type Inputs = {
   confirmNewPassword: string;
 };
 
-const ChangePassword = ({ onClose }: { onClose: () => void }) => {
+const ChangePassword = () => {
+  const { name } = useParams();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -25,7 +28,11 @@ const ChangePassword = ({ onClose }: { onClose: () => void }) => {
       return;
     }
     await axios
-      .post(`${process.env.REACT_APP_API}/user/change-password`, data)
+      .post(`${process.env.REACT_APP_API}/user/change-password`, {
+        name: name,
+        oldPassword: data.oldPassword,
+        newPassword: data.newPassword,
+      })
       .then((response) => {
         console.log(response);
         return response;
@@ -33,10 +40,10 @@ const ChangePassword = ({ onClose }: { onClose: () => void }) => {
   };
   return (
     <Modal>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex w-full flex-row items-center justify-between gap-4">
           <p className="text-center text-2xl font-semibold">Change password</p>
-          <button className="font-icons text-4xl" onClick={onClose}>
+          <button onClick={() => navigate(-1)} className="font-icons text-4xl">
             clear
           </button>
         </div>

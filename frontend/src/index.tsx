@@ -16,6 +16,8 @@ import { Login } from "./pages/Login";
 import { ResetPassword } from "./pages/ResetPassword";
 import User from "./pages/User";
 import userLoader from "./pages/User/loader";
+import ChangePassword from "./pages/User/ChangePassword";
+import ChangeEmail from "./pages/User/ChangeEmail";
 
 const router = createBrowserRouter([
   {
@@ -45,9 +47,19 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/user/:nickname",
+    path: "/user/:name",
     element: <User />,
     loader: userLoader,
+    children: [
+      {
+        path: "change-password",
+        element: <ChangePassword />,
+      },
+      {
+        path: "change-email",
+        element: <ChangeEmail />,
+      },
+    ],
   },
   {
     path: "/reset-password",
