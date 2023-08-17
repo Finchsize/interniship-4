@@ -21,6 +21,11 @@ export function SignIn() {
       console.log("Form validation error");
     } else {
       try {
+        const config = {
+          headers: {
+            withCredentials: true,
+          },
+        };
         axios
           .get(process.env.REACT_APP_API + "user/exists/" + nickname)
           .then((response) => {

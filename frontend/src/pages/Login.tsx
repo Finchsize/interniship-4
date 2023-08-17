@@ -34,27 +34,17 @@ export function Login() {
         name: nickname,
         password: password,
       };
-      try {
-        axios
-          .post(process.env.REACT_APP_API + "user/login", payload)
-          .then((response) => {
-            const jwtToken = response.data;
-            if (typeof jwtToken != "string") {
-              console.log(response.status);
-            } else {
-              const jwtDecoded = jwt<Token>(jwtToken);
-              cookies.set("jwt", jwtToken, {
-                expires: new Date(jwtDecoded.exp * 1000),
-                secure: true,
-                httpOnly: true,
-                sameSite: "lax",
-              });
-              navigate("/");
-            }
-          });
-      } catch (error) {
-        console.log(error);
-      }
+      axios
+        .post(process.env.REACT_APP_API + "user/login", payload, {
+          withCredentials: true,
+        })
+        .then((response) => {
+          console.log(response);
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
