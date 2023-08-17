@@ -14,7 +14,8 @@ import { Register } from "./pages/Register";
 import { SignIn } from "./pages/SignIn";
 import { Login } from "./pages/Login";
 import { ResetPassword } from "./pages/ResetPassword";
-import User, { loader as userLoader } from "./pages/User";
+import User from "./pages/User";
+import userLoader from "./pages/User/loader";
 
 const router = createBrowserRouter([
   {
