@@ -56,6 +56,19 @@ public class UserController {
     @GetMapping("/online")
     public Online getNumberOfPlayersOnline() { return userService.getNumberOfUsersOnline(); }
 
+    @PutMapping("/change-password")
+    public void changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
+        userService.changePassword(changePasswordDTO);
+    }
+
+    @Value
+    @Builder
+    @Jacksonized
+    static class ChangePasswordDTO {
+        String nickname;
+        String oldPassword;
+        String newPassword;
+    }
 
     @PostMapping("/login")
     public String loginUser(@RequestBody User user) {
