@@ -2,16 +2,11 @@ import { Params, useLoaderData } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-<<<<<<< HEAD
-
-export const loader = async ({ params }: { params: Params }) => {
-  const data = axios
-=======
 import Modal from "../components/Modal";
 
 export const loader = async ({ params }: { params: Params }) => {
+  // TODO: Before loading the user data, check if the page belongs to the current user
   const data = await axios
->>>>>>> 47019b670e9c0717f344c11f1cfb6cebad20865f
     .get(`${process.env.REACT_APP_API}user/${params.nickname}`)
     .then((response) => {
       return response.data;
@@ -28,19 +23,12 @@ type Inputs = {
 const User = () => {
   const user = useLoaderData() as { name: string; email: string };
   const [showPasswordModal, setShowPasswordModal] = useState<boolean>(false);
-<<<<<<< HEAD
-=======
   const [showEmailModal, setShowEmailModal] = useState<boolean>(false);
->>>>>>> 47019b670e9c0717f344c11f1cfb6cebad20865f
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-<<<<<<< HEAD
-  } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
-=======
     setError,
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
@@ -58,45 +46,19 @@ const User = () => {
         return response;
       });
   };
->>>>>>> 47019b670e9c0717f344c11f1cfb6cebad20865f
   return (
     <div>
       <p>{user.name}</p>
       <p>{user.email}</p>
       <div className="flex flex-row gap-4">
-<<<<<<< HEAD
-        <button type="button">Change email</button>
-=======
         <button type="button" onClick={() => setShowEmailModal(true)}>
           Change email
         </button>
->>>>>>> 47019b670e9c0717f344c11f1cfb6cebad20865f
         <button type="button" onClick={() => setShowPasswordModal(true)}>
           Change password
         </button>
       </div>
       {showPasswordModal && (
-<<<<<<< HEAD
-        <div className="fixed inset-0 flex flex-col items-center justify-center bg-black/25 p-8 backdrop-blur-sm">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex w-full max-w-sm flex-col gap-8 rounded-2xl bg-white p-8"
-          >
-            <p className="text-center text-2xl font-semibold">
-              Change password
-            </p>
-            <div className="flex flex-col gap-4">
-              <label>Old password</label>
-              <input {...register("oldPassword")} />
-              <label>New password</label>
-              <input {...register("newPassword")} />
-              <label>Confirm new password</label>
-              <input {...register("confirmNewPassword")} />
-              <input type="submit" />
-            </div>
-          </form>
-        </div>
-=======
         <Modal>
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -158,7 +120,6 @@ const User = () => {
             </div>
           </form>
         </Modal>
->>>>>>> 47019b670e9c0717f344c11f1cfb6cebad20865f
       )}
     </div>
   );
