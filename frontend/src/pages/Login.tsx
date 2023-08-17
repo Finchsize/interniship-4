@@ -70,7 +70,7 @@ export function Login() {
         />
         <p>{errors.password?.message}</p>
         <input type="submit" value="Log in" />
-        <br></br>
+        <br />
         <Link to="/reset-password">Reset password</Link>
       </form>
     </div>
