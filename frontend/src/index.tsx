@@ -13,7 +13,10 @@ import { HomePage } from "./pages/HomePage";
 import { Register } from "./pages/Register";
 import { SignIn } from "./pages/SignIn";
 import { Login } from "./pages/Login";
+<<<<<<< HEAD
 import { ResetPassword } from "./pages/ResetPassword";
+=======
+>>>>>>> 9eaf2ec796efb4a073330d7f8e6cbc041cbdafaa
 import User, { loader as userLoader } from "./pages/User";
 
 const router = createBrowserRouter([
@@ -27,6 +30,7 @@ const router = createBrowserRouter([
     ],
   },
   {
+<<<<<<< HEAD
     element: <OnboardingLayout />,
     children: [
       {
@@ -42,6 +46,15 @@ const router = createBrowserRouter([
         element: <Login />,
       },
     ],
+=======
+    path: "/user/:nickname",
+    element: <User />,
+    loader: userLoader,
+  },
+  {
+    path: "/sign-in",
+    element: <SignIn />,
+>>>>>>> 9eaf2ec796efb4a073330d7f8e6cbc041cbdafaa
   },
   {
     path: "/user/:nickname",
