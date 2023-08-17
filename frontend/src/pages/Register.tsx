@@ -37,26 +37,15 @@ export function Register() {
         email: formData.email,
         password: formData.password,
       };
-      try {
-        axios
-          .post(process.env.REACT_APP_API + "user/register", payload)
-          .then((response) => {
-            const jwtToken = response.data;
-            if (typeof jwtToken != "string") {
-              console.log(response.status);
-            } else {
-              cookies.set("jwt", jwtToken, {
-                expires: new Date(Date.now() + 5 * 60 * 1000),
-                secure: true,
-                httpOnly: true,
-                sameSite: "lax",
-              });
-              navigate("/");
-            }
-          });
-      } catch (error) {
-        console.log(error);
-      }
+      axios
+        .post(process.env.REACT_APP_API + "user/register", payload)
+        .then((response) => {
+          console.log(response);
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 

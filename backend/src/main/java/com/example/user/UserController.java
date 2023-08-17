@@ -68,6 +68,18 @@ public class UserController {
         String nickname;
         String oldPassword;
         String newPassword;
+
+    }
+    @Value
+    @Builder
+    @Jacksonized
+    static class ChangeEmailDTO {
+        String nickname;
+        String newEmail;
+    }
+    @PutMapping("/change-email")
+    public void changePassword(@RequestBody ChangeEmailDTO changeEmailDTO) {
+        userService.changeEmail(changeEmailDTO);
     }
 
     @PostMapping("/login")
