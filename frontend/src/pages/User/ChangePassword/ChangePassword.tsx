@@ -1,6 +1,7 @@
 import Modal from "../../../components/Modal";
 import axios from "axios";
 import { SubmitHandler, useForm } from "react-hook-form";
+import Button from "../../../components/Button/Button";
 
 type Inputs = {
   oldPassword: string;
@@ -24,7 +25,7 @@ const ChangePassword = ({ onClose }: { onClose: () => void }) => {
       return;
     }
     await axios
-      .post(`${process.env.REACT_APP_API}/user/change-password`)
+      .post(`${process.env.REACT_APP_API}/user/change-password`, data)
       .then((response) => {
         console.log(response);
         return response;
@@ -32,36 +33,45 @@ const ChangePassword = ({ onClose }: { onClose: () => void }) => {
   };
   return (
     <Modal>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
         <div className="flex w-full flex-row items-center justify-between gap-4">
           <p className="text-center text-2xl font-semibold">Change password</p>
           <button className="font-icons text-4xl" onClick={onClose}>
             clear
           </button>
         </div>
-        <div className="flex flex-col gap-4">
-          <label>Old password</label>
-          <input
-            type="password"
-            {...register("oldPassword", { required: true })}
-          />
-          <label>New password</label>
-          <input
-            type="password"
-            {...register("newPassword", { required: true })}
-          />
-          <label>Confirm new password</label>
-          <input
-            type="password"
-            {...register("confirmNewPassword", { required: true })}
-          />
-          {errors.confirmNewPassword && (
-            <p className="text-xs text-red-600">
-              {errors.confirmNewPassword.message}
-            </p>
-          )}
-          <input type="submit" />
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <label className="text-sm">Old password</label>
+            <input
+              type="password"
+              className="w-full rounded-full px-5 py-2 text-sm focus:border-orange-600 focus:ring-orange-600"
+              {...register("oldPassword", { required: true })}
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm">New password</label>
+            <input
+              type="password"
+              className="w-full rounded-full px-5 py-2 text-sm focus:border-orange-600 focus:ring-orange-600"
+              {...register("newPassword", { required: true })}
+            />
+          </div>
+          <div className="space-y-2">
+            <label className="text-sm">Confirm new password</label>
+            <input
+              type="password"
+              className="w-full rounded-full px-5 py-2 text-sm focus:border-orange-600 focus:ring-orange-600"
+              {...register("confirmNewPassword", { required: true })}
+            />
+            {errors.confirmNewPassword && (
+              <p className="text-xs text-red-600">
+                {errors.confirmNewPassword.message}
+              </p>
+            )}
+          </div>
         </div>
+        <Button text="Continue" type="submit" fullWidth />
       </form>
     </Modal>
   );
