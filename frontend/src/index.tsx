@@ -14,10 +14,14 @@ import { Register } from "./pages/Register";
 import { SignIn } from "./pages/SignIn";
 import { Login } from "./pages/Login";
 import { ResetPassword } from "./pages/ResetPassword";
+// User account page
 import User from "./pages/User";
 import userLoader from "./pages/User/loader";
-import ChangePassword from "./pages/User/ChangePassword";
-import ChangeEmail from "./pages/User/ChangeEmail";
+// User profile page
+import Profile from "./pages/Profile";
+import profileLoader from "./pages/Profile/loader";
+import ChangePassword from "./pages/Profile/ChangePassword";
+import ChangeEmail from "./pages/Profile/ChangeEmail";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +54,11 @@ const router = createBrowserRouter([
     path: "/user/:name",
     element: <User />,
     loader: userLoader,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
+    loader: profileLoader,
     children: [
       {
         path: "change-password",
