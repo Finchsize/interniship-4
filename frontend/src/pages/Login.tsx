@@ -2,8 +2,6 @@ import { Link, useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
-import Cookies from "universal-cookie";
-import jwt from "jwt-decode";
 
 type Inputs = {
   password: string;
@@ -12,19 +10,12 @@ type Inputs = {
 export function Login() {
   const { nickname } = useParams();
   const navigate = useNavigate();
-  const cookies = new Cookies();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-
-  interface Token {
-    id: number;
-    exp: number;
-    iat: number;
-  }
 
   const onSubmit: SubmitHandler<Inputs> = ({ password }) => {
     if (typeof password != "string") {

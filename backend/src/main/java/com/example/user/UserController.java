@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Base64;
+import java.time.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public Optional<User> findById(@PathVariable int id) {
+    public Optional<User> findById(@PathVariable int id, HttpServletRequest request) {
         return userService.findUserById(id);
     }
 
@@ -86,12 +87,15 @@ public class UserController {
         }
 
         try {
-            final var expirationDateSeconds = (System.currentTimeMillis() + 60 * 5 * 1000L) / 1000L;
-            final var jwt = JWT.create().withClaim("id", specifiedUser.get().getId()).withIssuedAt(new Date()).withExpiresAt(new Date(expirationDateSeconds * 1000L)).sign(jwtAlgorithm);
+            ZonedDateTime expirationDate = ZonedDateTime.now().plusHours(1);
+            final var jwt = JWT.create().withClaim("id", specifiedUser.get().getId()).withIssuedAt(new Date()).withExpiresAt(Date.from(expirationDate.toInstant())).sign(jwtAlgorithm);
             Cookie jwtCookie = new Cookie("jwt", jwt);
-            jwtCookie.setMaxAge((int)expirationDateSeconds);
+            jwtCookie.setMaxAge((int)(expirationDate.toEpochSecond() - ZonedDateTime.now().toEpochSecond()));
             jwtCookie.setHttpOnly(true);
+            jwtCookie.setSecure(true);
             jwtCookie.setAttribute("sameSite", "lax");
+            jwtCookie.setDomain("localhost");
+            jwtCookie.setPath("/");
             response.addCookie(jwtCookie);
             return "success";
         } catch (JWTCreationException exception) {
@@ -103,12 +107,15 @@ public class UserController {
     public String registerUser(@RequestBody User user, HttpServletResponse response) {
         User newUser = userService.saveUser(user);
         try {
-            final var expirationDateSeconds = (System.currentTimeMillis() + 60 * 5 * 1000L) / 1000L;
-            final var jwt = JWT.create().withClaim("id", newUser.getId()).withIssuedAt(new Date()).withExpiresAt(new Date(expirationDateSeconds * 1000L)).sign(jwtAlgorithm);
+            ZonedDateTime expirationDate = ZonedDateTime.now().plusHours(1);
+            final var jwt = JWT.create().withClaim("id", newUser.getId()).withIssuedAt(new Date()).withExpiresAt(Date.from(expirationDate.toInstant())).sign(jwtAlgorithm);
             Cookie jwtCookie = new Cookie("jwt", jwt);
-            jwtCookie.setMaxAge((int)expirationDateSeconds);
+            jwtCookie.setMaxAge((int)(expirationDate.toEpochSecond() - ZonedDateTime.now().toEpochSecond()));
             jwtCookie.setHttpOnly(true);
-            jwtCookie.setAttribute("sameSite", "none");
+            jwtCookie.setSecure(true);
+            jwtCookie.setAttribute("sameSite", "lax");
+            jwtCookie.setDomain("localhost");
+            jwtCookie.setPath("/");
             response.addCookie(jwtCookie);
             return "success";
         } catch (JWTCreationException exception) {

@@ -20,25 +20,21 @@ export function SignIn() {
     if (typeof nickname != "string") {
       console.log("Form validation error");
     } else {
-      try {
-        const config = {
-          headers: {
-            withCredentials: true,
-          },
-        };
-        axios
-          .get(process.env.REACT_APP_API + "user/exists/" + nickname)
-          .then((response) => {
-            const data = response.data;
-            if (data == false) {
-              navigate("/sign-in/register/" + nickname);
-            } else {
-              navigate("/sign-in/login/" + nickname);
-            }
-          });
-      } catch (error) {
-        console.log(error);
-      }
+      axios
+        .get(process.env.REACT_APP_API + "user/exists/" + nickname, {
+          withCredentials: true,
+        })
+        .then((response) => {
+          const data = response.data;
+          if (data == false) {
+            navigate("/sign-in/register/" + nickname);
+          } else {
+            navigate("/sign-in/login/" + nickname);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 

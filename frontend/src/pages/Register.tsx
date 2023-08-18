@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
-import Cookies from "universal-cookie";
 import isEmail from "validator/lib/isEmail";
 import Button from "../components/Button";
 
@@ -15,7 +14,6 @@ type Inputs = {
 export function Register() {
   const { nickname } = useParams();
   const navigate = useNavigate();
-  const cookies = new Cookies();
 
   const {
     register,
@@ -37,26 +35,17 @@ export function Register() {
         email: formData.email,
         password: formData.password,
       };
-      try {
-        axios
-          .post(process.env.REACT_APP_API + "user/register", payload)
-          .then((response) => {
-            const jwtToken = response.data;
-            if (typeof jwtToken != "string") {
-              console.log(response.status);
-            } else {
-              cookies.set("jwt", jwtToken, {
-                expires: new Date(Date.now() + 5 * 60 * 1000),
-                secure: true,
-                httpOnly: true,
-                sameSite: "lax",
-              });
-              navigate("/");
-            }
-          });
-      } catch (error) {
-        console.log(error);
-      }
+      axios
+        .post(process.env.REACT_APP_API + "user/register", payload, {
+          withCredentials: true,
+        })
+        .then((response) => {
+          console.log(response);
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
