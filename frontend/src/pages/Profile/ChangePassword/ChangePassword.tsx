@@ -4,11 +4,11 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../../components/Button/Button";
 import { useNavigate, useParams } from "react-router-dom";
 
-type Inputs = {
+interface Inputs {
   oldPassword: string;
   newPassword: string;
   confirmNewPassword: string;
-};
+}
 
 const ChangePassword = () => {
   const { name } = useParams();

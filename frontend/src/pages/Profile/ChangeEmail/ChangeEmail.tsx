@@ -5,9 +5,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../../components/Button/Button";
 import { useNavigate, useParams } from "react-router-dom";
 
-type Inputs = {
+interface Inputs {
   email: string;
-};
+}
 
 const ChangeEmail = () => {
   const { name } = useParams();
