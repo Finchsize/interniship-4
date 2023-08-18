@@ -101,12 +101,9 @@ public class UserService {
 
     public void changeEmail(UserController.ChangeEmailDTO changeEmailDTO) {
         final var nickname = changeEmailDTO.getNickname();
-        Optional<User> user = userRepository.findByName(nickname);
-        if (user.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an user with this name");
-        }
-        user.get().setEmail(changeEmailDTO.getNewEmail());
-        userRepository.save(user.get());
+        final var user = userRepository.findByName(nickname).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find a user with this nickname"));
+        user.setEmail(changeEmailDTO.getNewEmail());
+        userRepository.save(user);
     }
 }
 
