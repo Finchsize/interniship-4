@@ -3,6 +3,8 @@ package com.example.user;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
@@ -11,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.*;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -71,7 +74,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String loginUser(@RequestBody User user) {
+    public String loginUser(@RequestBody User user, HttpServletResponse response) {
         final Optional<User> specifiedUser = userService.findUserByName(user.getName());
 
         if (specifiedUser.isEmpty()) {
@@ -83,7 +86,17 @@ public class UserController {
         }
 
         try {
-            return JWT.create().withClaim("id", specifiedUser.get().getId()).withIssuedAt(new Date()).withExpiresAt(new Date(System.currentTimeMillis() + 60 * 5 * 1000L)).sign(jwtAlgorithm);
+            ZonedDateTime expirationDate = ZonedDateTime.now().plusHours(1);
+            final var jwt = JWT.create().withClaim("id", specifiedUser.get().getId()).withIssuedAt(new Date()).withExpiresAt(Date.from(expirationDate.toInstant())).sign(jwtAlgorithm);
+            Cookie jwtCookie = new Cookie("jwt", jwt);
+            jwtCookie.setMaxAge((int)(expirationDate.toEpochSecond() - ZonedDateTime.now().toEpochSecond()));
+            jwtCookie.setHttpOnly(true);
+            jwtCookie.setSecure(true);
+            jwtCookie.setAttribute("sameSite", "lax");
+            jwtCookie.setDomain("localhost");
+            jwtCookie.setPath("/");
+            response.addCookie(jwtCookie);
+            return "success";
         } catch (JWTCreationException exception) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Encountered error while creating a JWT.", exception);
         }
@@ -92,10 +105,6 @@ public class UserController {
     @PostMapping("/register")
     public String registerUser(@RequestBody User user) {
         User newUser = userService.saveUser(user);
-        try {
-            return JWT.create().withClaim("id", newUser.getId()).withIssuedAt(new Date()).withExpiresAt(new Date(System.currentTimeMillis() + 60 * 5 * 1000L)).sign(jwtAlgorithm);
-        } catch (JWTCreationException exception) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Encountered error while creating a JWT.", exception);
-        }
+        return "success";
     }
 }
