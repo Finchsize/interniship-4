@@ -98,5 +98,12 @@ public class UserService {
         user.get().setPassword(changePasswordDTO.getNewPassword());
         userRepository.save(user.get());
     }
+
+    public void changeEmail(UserController.ChangeEmailDTO changeEmailDTO) {
+        final var nickname = changeEmailDTO.getNickname();
+        final var user = userRepository.findByName(nickname).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find a user with this nickname"));
+        user.setEmail(changeEmailDTO.getNewEmail());
+        userRepository.save(user);
+    }
 }
 
