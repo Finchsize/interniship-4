@@ -14,6 +14,12 @@ import { Register } from "./pages/Register";
 import { SignIn } from "./pages/SignIn";
 import { Login } from "./pages/Login";
 import { ResetPassword } from "./pages/ResetPassword";
+import User from "./pages/User";
+import userLoader from "./pages/User/loader";
+import Profile from "./pages/Profile";
+import profileLoader from "./pages/Profile/loader";
+import ChangePassword from "./pages/Profile/ChangePassword";
+import ChangeEmail from "./pages/Profile/ChangeEmail";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +28,21 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+        loader: profileLoader,
+        children: [
+          {
+            path: "change-password",
+            element: <ChangePassword />,
+          },
+          {
+            path: "change-email",
+            element: <ChangeEmail />,
+          },
+        ],
       },
     ],
   },
@@ -41,6 +62,11 @@ const router = createBrowserRouter([
         element: <Login />,
       },
     ],
+  },
+  {
+    path: "/user/:name",
+    element: <User />,
+    loader: userLoader,
   },
   {
     path: "/reset-password",

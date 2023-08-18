@@ -29,6 +29,13 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public Optional<User> getUserByName(String name) {
+        if (!userRepository.existsByName(name)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Can't find an user with this name.");
+        }
+        return userRepository.findByName(name);
+    }
+
     public boolean userExistsByName(String name) {
         return userRepository.existsByName(name);
     }
