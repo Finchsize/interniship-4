@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public Optional<User> findById(@PathVariable int id, HttpServletRequest request) {
+    public Optional<User> findById(@PathVariable int id) {
         return userService.findUserById(id);
     }
 
@@ -104,22 +104,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@RequestBody User user, HttpServletResponse response) {
+    public String registerUser(@RequestBody User user) {
         User newUser = userService.saveUser(user);
-        try {
-            ZonedDateTime expirationDate = ZonedDateTime.now().plusHours(1);
-            final var jwt = JWT.create().withClaim("id", newUser.getId()).withIssuedAt(new Date()).withExpiresAt(Date.from(expirationDate.toInstant())).sign(jwtAlgorithm);
-            Cookie jwtCookie = new Cookie("jwt", jwt);
-            jwtCookie.setMaxAge((int)(expirationDate.toEpochSecond() - ZonedDateTime.now().toEpochSecond()));
-            jwtCookie.setHttpOnly(true);
-            jwtCookie.setSecure(true);
-            jwtCookie.setAttribute("sameSite", "lax");
-            jwtCookie.setDomain("localhost");
-            jwtCookie.setPath("/");
-            response.addCookie(jwtCookie);
-            return "success";
-        } catch (JWTCreationException exception) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Encountered error while creating a JWT.", exception);
-        }
+        return "success";
     }
 }

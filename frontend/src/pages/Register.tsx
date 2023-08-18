@@ -36,9 +36,7 @@ export function Register() {
         password: formData.password,
       };
       axios
-        .post(process.env.REACT_APP_API + "user/register", payload, {
-          withCredentials: true,
-        })
+        .post(process.env.REACT_APP_API + "user/register", payload)
         .then((response) => {
           console.log(response);
           navigate("/");
