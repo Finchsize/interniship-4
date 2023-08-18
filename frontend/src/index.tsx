@@ -14,10 +14,8 @@ import { Register } from "./pages/Register";
 import { SignIn } from "./pages/SignIn";
 import { Login } from "./pages/Login";
 import { ResetPassword } from "./pages/ResetPassword";
-// User account page
 import User from "./pages/User";
 import userLoader from "./pages/User/loader";
-// User profile page
 import Profile from "./pages/Profile";
 import profileLoader from "./pages/Profile/loader";
 import ChangePassword from "./pages/Profile/ChangePassword";
