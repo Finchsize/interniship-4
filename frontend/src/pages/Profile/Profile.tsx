@@ -8,7 +8,7 @@ const User = () => {
   };
   return (
     <>
-      <div className="flex h-full min-h-screen w-full flex-col items-center justify-center p-8">
+      <div>
         <div className="space-y-8">
           <div className="space-y-2">
             <p className="text-2xl font-semibold">Profile</p>

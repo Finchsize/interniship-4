@@ -31,6 +31,21 @@ const router = createBrowserRouter([
         index: true,
         element: <HomePage />,
       },
+      {
+        path: "profile",
+        element: <Profile />,
+        loader: profileLoader,
+        children: [
+          {
+            path: "change-password",
+            element: <ChangePassword />,
+          },
+          {
+            path: "change-email",
+            element: <ChangeEmail />,
+          },
+        ],
+      },
     ],
   },
   {
@@ -54,21 +69,6 @@ const router = createBrowserRouter([
     path: "/user/:name",
     element: <User />,
     loader: userLoader,
-  },
-  {
-    path: "/profile",
-    element: <Profile />,
-    loader: profileLoader,
-    children: [
-      {
-        path: "change-password",
-        element: <ChangePassword />,
-      },
-      {
-        path: "change-email",
-        element: <ChangeEmail />,
-      },
-    ],
   },
   {
     path: "/reset-password",
