@@ -75,8 +75,20 @@ public class UserController {
     public Online getNumberOfPlayersOnline() { return userService.getNumberOfUsersOnline(); }
 
     @PutMapping("/change-password")
-    public void changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
-        userService.changePassword(changePasswordDTO);
+    public void changePassword(@CookieValue(name = "jwt") String token, @RequestBody ChangePasswordDTO changePasswordDTO) {
+        try {
+            DecodedJWT decodedJWT = verifier.verify(token);
+            Optional<User> user = userService.findUserById(decodedJWT.getClaim("id").asInt());
+            if (user.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "No user with specified ID found");
+            }
+            if (!user.get().getName().equals(changePasswordDTO.getNickname())) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You can't change password for another user");
+            }
+            userService.changePassword(changePasswordDTO);
+        } catch (JWTCreationException exception) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token", exception);
+        }
     }
 
     @Value
@@ -96,8 +108,20 @@ public class UserController {
         String newEmail;
     }
     @PutMapping("/change-email")
-    public void changePassword(@RequestBody ChangeEmailDTO changeEmailDTO) {
-        userService.changeEmail(changeEmailDTO);
+    public void changePassword(@CookieValue(name = "jwt") String token, @RequestBody ChangeEmailDTO changeEmailDTO) {
+        try {
+            DecodedJWT decodedJWT = verifier.verify(token);
+            Optional<User> user = userService.findUserById(decodedJWT.getClaim("id").asInt());
+            if (user.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "No user with specified ID found");
+            }
+            if (!user.get().getName().equals(changeEmailDTO.getNickname())) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You can't change password for another user");
+            }
+            userService.changeEmail(changeEmailDTO);
+        } catch (JWTCreationException exception) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token", exception);
+        }
     }
 
     @PostMapping("/login")
