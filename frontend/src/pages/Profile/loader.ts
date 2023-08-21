@@ -4,7 +4,9 @@ import { redirect } from "react-router-dom";
 const loader = async () => {
   // TODO: Check the JWT, get the user from it, and get his data [I4-52]
   const data = await axios
-    .get(`${process.env.REACT_APP_API}user/current-user`)
+    .get(`${process.env.REACT_APP_API}user/current-user`, {
+      withCredentials: true,
+    })
     .then((response) => {
       return response.data;
     })
