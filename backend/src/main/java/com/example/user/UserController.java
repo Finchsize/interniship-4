@@ -104,18 +104,18 @@ public class UserController {
     @Builder
     @Jacksonized
     static class ChangeEmailDTO {
-        String nickname;
-        String newEmail;
+        String name;
+        String email;
     }
     @PutMapping("/change-email")
-    public void changePassword(@CookieValue(name = "jwt") String token, @RequestBody ChangeEmailDTO changeEmailDTO) {
+    public void changeEmail(@CookieValue(name = "jwt") String token, @RequestBody ChangeEmailDTO changeEmailDTO) {
         try {
             DecodedJWT decodedJWT = verifier.verify(token);
             Optional<User> user = userService.findUserById(decodedJWT.getClaim("id").asInt());
             if (user.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "No user with specified ID found");
             }
-            if (!user.get().getName().equals(changeEmailDTO.getNickname())) {
+            if (!user.get().getName().equals(changeEmailDTO.getName())) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You can't change password for another user");
             }
             userService.changeEmail(changeEmailDTO);

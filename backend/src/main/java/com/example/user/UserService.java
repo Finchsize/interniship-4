@@ -100,16 +100,16 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find an user with this name");
         }
         if (!user.get().getPassword().equals(oldPassword)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The old password does not match");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "The old password does not match");
         }
         user.get().setPassword(changePasswordDTO.getNewPassword());
         userRepository.save(user.get());
     }
 
     public void changeEmail(UserController.ChangeEmailDTO changeEmailDTO) {
-        final var nickname = changeEmailDTO.getNickname();
+        final var nickname = changeEmailDTO.getName();
         final var user = userRepository.findByName(nickname).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Could not find a user with this nickname"));
-        user.setEmail(changeEmailDTO.getNewEmail());
+        user.setEmail(changeEmailDTO.getEmail());
         userRepository.save(user);
     }
 }
