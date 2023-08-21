@@ -26,7 +26,7 @@ export function Login() {
         password: password,
       };
       axios
-        .post(process.env.REACT_APP_API + "user/login", payload)
+        .post(process.env.REACT_APP_API + "user/login", payload, {withCredentials: true})
         .then((response) => {
           console.log(response);
           navigate("/");
