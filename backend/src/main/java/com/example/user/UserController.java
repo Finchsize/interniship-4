@@ -1,8 +1,10 @@
 package com.example.user;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Builder;
@@ -26,10 +28,21 @@ public class UserController {
     private final UserService userService;
 
     Algorithm jwtAlgorithm = Algorithm.HMAC256("449d0065577de8cc67efc7abe049ef5514cc29a8ebc28dbd120954b24db9e797");
+    JWTVerifier verifier = JWT.require(jwtAlgorithm).build();
 
     @GetMapping
     public List<User> findAll() {
         return userService.findUsers();
+    }
+
+    @PostMapping("/user")
+    public void getByToken(@CookieValue(name = "jwt") String token) {
+        try {
+            DecodedJWT decodedJWT = verifier.verify(token);
+            System.out.println(decodedJWT);
+        } catch (JWTCreationException exception) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token", exception);
+        }
     }
 
     @GetMapping("/{name}")
