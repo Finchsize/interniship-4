@@ -41,7 +41,7 @@ public class UserController {
             DecodedJWT decodedJWT = verifier.verify(token);
             Optional<User> user = userService.findUserById(decodedJWT.getClaim("id").asInt());
             if (user.isEmpty()) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user with specified ID found");
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "No user with specified ID found");
             }
             return user.get();
         } catch (JWTCreationException exception) {
