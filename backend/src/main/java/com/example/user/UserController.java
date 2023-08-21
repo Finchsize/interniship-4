@@ -35,11 +35,15 @@ public class UserController {
         return userService.findUsers();
     }
 
-    @PostMapping("/user")
-    public void getByToken(@CookieValue(name = "jwt") String token) {
+    @GetMapping("/current-user")
+    public User getByToken(@CookieValue(name = "jwt") String token) {
         try {
             DecodedJWT decodedJWT = verifier.verify(token);
-            System.out.println(decodedJWT);
+            Optional<User> user = userService.findUserById(decodedJWT.getClaim("id").asInt());
+            if (user.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No user with specified ID found");
+            }
+            return user.get();
         } catch (JWTCreationException exception) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token", exception);
         }
