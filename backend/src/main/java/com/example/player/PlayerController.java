@@ -12,7 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class PlayerController {
     private final PlayerService playerService;
-    private final JsonWebToken jsonWebToken;
+    JsonWebToken jsonWebToken = new JsonWebToken();
     @PutMapping("/unstuck")
     public void unstuck(@CookieValue( name = "jwt" ) String token) {
         try {
