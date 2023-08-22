@@ -11,10 +11,12 @@ const loader = async () => {
       return response.data;
     })
     .catch((error) => {
-      // No token, invalid token, wrong user ID
       if (
+        // No token
         error.response.status === 400 ||
+        // Invalid token
         error.response.status === 401 ||
+        // Wrong user ID
         error.response.status === 409
       ) {
         return redirect("/sign-in");
