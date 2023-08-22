@@ -51,12 +51,13 @@ export function Login() {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-2">
           <input
+            type="password"
             className="w-full rounded-full px-5 py-2 focus:border-orange-600 focus:ring-orange-600"
             {...register("password", {
               required: "Password is required",
             })}
           />
-          <p>{errors.password?.message}</p>
+          <p className="text-xs text-red-600">{errors.password?.message}</p>
         </div>
         <div className="flex flex-col items-center gap-4">
           <Button type="submit" text="Sign In" fullWidth />
