@@ -25,8 +25,12 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> findUserById(int id) {
-        return userRepository.findById(id);
+    public User getUserById(int id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "No user with specified ID found");
+        }
+        return user.get();
     }
 
     public Optional<User> getUserByName(String name) {

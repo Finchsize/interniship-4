@@ -38,12 +38,8 @@ public class UserController {
     @GetMapping("/current-user")
     public User getByToken(@CookieValue(name = "jwt") String token) {
         try {
-            DecodedJWT decodedJWT = verifier.verify(token);
-            Optional<User> user = userService.findUserById(decodedJWT.getClaim("id").asInt());
-            if (user.isEmpty()) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "No user with specified ID found");
-            }
-            return user.get();
+            final var decodedJWT = verifier.verify(token);
+            return userService.getUserById(decodedJWT.getClaim("id").asInt());
         } catch (JWTCreationException exception) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token", exception);
         }
@@ -77,12 +73,9 @@ public class UserController {
     @PutMapping("/change-password")
     public void changePassword(@CookieValue(name = "jwt") String token, @RequestBody ChangePasswordDTO changePasswordDTO) {
         try {
-            DecodedJWT decodedJWT = verifier.verify(token);
-            Optional<User> user = userService.findUserById(decodedJWT.getClaim("id").asInt());
-            if (user.isEmpty()) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "No user with specified ID found");
-            }
-            if (!user.get().getName().equals(changePasswordDTO.getNickname())) {
+            final var decodedJWT = verifier.verify(token);
+            User user = userService.getUserById(decodedJWT.getClaim("id").asInt());
+            if (!user.getName().equals(changePasswordDTO.getNickname())) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You can't change password for another user");
             }
             userService.changePassword(changePasswordDTO);
@@ -110,12 +103,9 @@ public class UserController {
     @PutMapping("/change-email")
     public void changeEmail(@CookieValue(name = "jwt") String token, @RequestBody ChangeEmailDTO changeEmailDTO) {
         try {
-            DecodedJWT decodedJWT = verifier.verify(token);
-            Optional<User> user = userService.findUserById(decodedJWT.getClaim("id").asInt());
-            if (user.isEmpty()) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "No user with specified ID found");
-            }
-            if (!user.get().getName().equals(changeEmailDTO.getName())) {
+            final var decodedJWT = verifier.verify(token);
+            User user = userService.getUserById(decodedJWT.getClaim("id").asInt());
+            if (!user.getName().equals(changeEmailDTO.getName())) {
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You can't change password for another user");
             }
             userService.changeEmail(changeEmailDTO);
