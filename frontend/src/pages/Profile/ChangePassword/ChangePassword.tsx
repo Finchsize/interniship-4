@@ -2,7 +2,10 @@ import Modal from "../../../components/Modal";
 import axios from "axios";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../../components/Button/Button";
-import { useNavigate, useParams } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+
+import { NameContext } from "../Profile";
 
 interface Inputs {
   oldPassword: string;
@@ -11,7 +14,8 @@ interface Inputs {
 }
 
 const ChangePassword = () => {
-  const { name } = useParams();
+  const [loading, setLoading] = useState(false);
+  const name = useContext(NameContext);
   const navigate = useNavigate();
   const {
     register,
@@ -27,15 +31,29 @@ const ChangePassword = () => {
       });
       return;
     }
+    setLoading(true);
     await axios
-      .post(`${process.env.REACT_APP_API}/user/change-password`, {
-        name: name,
-        oldPassword: data.oldPassword,
-        newPassword: data.newPassword,
+      .put(
+        `${process.env.REACT_APP_API}user/change-password`,
+        {
+          nickname: name,
+          oldPassword: data.oldPassword,
+          newPassword: data.newPassword,
+        },
+        { withCredentials: true },
+      )
+      .then(() => {
+        setLoading(false);
+        navigate("/profile");
       })
-      .then((response) => {
-        console.log(response);
-        return response;
+      .catch((error) => {
+        setLoading(false);
+        if (error.response.status === 409) {
+          setError("oldPassword", {
+            type: "value",
+            message: "Old password does not match",
+          });
+        }
       });
   };
   return (
@@ -55,6 +73,11 @@ const ChangePassword = () => {
               className="w-full rounded-full px-5 py-2 text-sm focus:border-orange-600 focus:ring-orange-600"
               {...register("oldPassword", { required: true })}
             />
+            {errors.oldPassword && (
+              <p className="text-xs text-red-600">
+                {errors.oldPassword.message}
+              </p>
+            )}
           </div>
           <div className="space-y-2">
             <label className="text-sm">New password</label>
@@ -78,7 +101,7 @@ const ChangePassword = () => {
             )}
           </div>
         </div>
-        <Button text="Continue" type="submit" fullWidth />
+        <Button text="Continue" type="submit" fullWidth loading={loading} />
       </form>
     </Modal>
   );
