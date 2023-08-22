@@ -5,7 +5,7 @@ const Button = ({
   size,
   onClick,
 }: {
-  text: string;
+  text: React.ReactNode;
   fullWidth?: boolean;
   type?: "button" | "submit";
   size?: "sm" | "base" | "lg" | "xl" | "2xl";
