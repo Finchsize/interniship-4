@@ -38,7 +38,7 @@ public class UserController {
     @GetMapping("/current-user")
     public User getByToken(@CookieValue(name = "jwt") String token) {
         try {
-            DecodedJWT decodedJWT = verifier.verify(token);
+            final var decodedJWT = verifier.verify(token);
             Optional<User> user = userService.findUserById(decodedJWT.getClaim("id").asInt());
             if (user.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "No user with specified ID found");
