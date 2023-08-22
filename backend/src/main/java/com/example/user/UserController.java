@@ -77,8 +77,8 @@ public class UserController {
     @PutMapping("/change-password")
     public void changePassword(@CookieValue(name = "jwt") String token, @RequestBody ChangePasswordDTO changePasswordDTO) {
         try {
-            DecodedJWT decodedJWT = verifier.verify(token);
-            Optional<User> user = userService.findUserById(decodedJWT.getClaim("id").asInt());
+            final var decodedJWT = verifier.verify(token);
+            final var  user = userService.findUserById(decodedJWT.getClaim("id").asInt());
             if (user.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "No user with specified ID found");
             }
