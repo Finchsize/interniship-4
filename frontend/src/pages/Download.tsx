@@ -5,7 +5,9 @@ import Button from "../components/Button";
 
 export function Download() {
   const navigate = useNavigate();
-  const [countdown, setCountdown] = useState(5);
+  const [countdown, setCountdown] = useState(
+    parseInt(`${process.env.REACT_APP_COUNTDOWN_TIME_SECONDS}`, 10),
+  );
   const [copy, setCopy] = useState("Copy link");
   const [disabled, setDisabled] = useState(false);
 
