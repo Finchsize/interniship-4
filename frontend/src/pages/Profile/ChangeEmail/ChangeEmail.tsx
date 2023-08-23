@@ -1,28 +1,37 @@
 import Modal from "../../../components/Modal";
 import axios from "axios";
-import { useId } from "react";
+import { useId, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../../../components/Button/Button";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+
+import { NameContext } from "../Profile";
 
 interface Inputs {
   email: string;
 }
 
 const ChangeEmail = () => {
-  const { name } = useParams();
+  const [loading, setLoading] = useState(false);
+  const name = useContext(NameContext);
   const navigate = useNavigate();
   const id = useId();
   const { register, handleSubmit } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    setLoading(true);
     await axios
-      .post(`${process.env.REACT_APP_API}user/change-email`, {
-        name: name,
-        email: data.email,
-      })
-      .then((response) => {
-        console.log(response);
-        return response;
+      .put(
+        `${process.env.REACT_APP_API}user/change-email`,
+        {
+          name: name,
+          email: data.email,
+        },
+        { withCredentials: true },
+      )
+      .then(() => {
+        setLoading(false);
+        navigate("/profile");
       });
   };
   return (
@@ -42,7 +51,7 @@ const ChangeEmail = () => {
             placeholder="Enter your new email"
             {...register("email")}
           />
-          <Button type="submit" text="Continue" fullWidth />
+          <Button type="submit" text="Continue" fullWidth loading={loading} />
         </form>
       </div>
     </Modal>

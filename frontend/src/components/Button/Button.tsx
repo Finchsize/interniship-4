@@ -1,5 +1,6 @@
 const Button = ({
   text,
+  loading,
   type,
   fullWidth,
   size,
@@ -7,6 +8,7 @@ const Button = ({
   disabled,
 }: {
   text: React.ReactNode;
+  loading?: boolean;
   fullWidth?: boolean;
   type?: "button" | "submit";
   size?: "sm" | "base" | "lg" | "xl" | "2xl";
@@ -15,6 +17,7 @@ const Button = ({
 }) => {
   return (
     <button
+      disabled={loading}
       type={
         type === "button" ? "button" : type === "submit" ? "submit" : "button"
       }
@@ -31,10 +34,21 @@ const Button = ({
           : "text-base"
       } ${
         fullWidth ? "w-full" : "w-min"
-      } flex justify-center whitespace-nowrap rounded-full bg-orange-600 px-5 py-2 font-semibold text-white transition hover:bg-orange-700`}
+      } flex justify-center whitespace-nowrap rounded-full ${
+        !loading ? "bg-orange-600 hover:bg-orange-700" : "bg-orange-500"
+      } px-5 py-2 font-semibold text-white transition ${
+        loading && "cursor-wait"
+      }`}
       disabled={disabled}
     >
-      {text}
+      {!loading ? (
+        text
+      ) : (
+        <div className="flex flex-row items-center gap-2">
+          <span className="animate-spin font-icons text-2xl">refresh</span>
+          Loading...
+        </div>
+      )}
     </button>
   );
 };

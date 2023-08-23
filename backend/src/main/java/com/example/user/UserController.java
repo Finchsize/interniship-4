@@ -1,8 +1,10 @@
 package com.example.user;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Builder;
@@ -26,10 +28,21 @@ public class UserController {
     private final UserService userService;
 
     Algorithm jwtAlgorithm = Algorithm.HMAC256("449d0065577de8cc67efc7abe049ef5514cc29a8ebc28dbd120954b24db9e797");
+    JWTVerifier verifier = JWT.require(jwtAlgorithm).build();
 
     @GetMapping
     public List<User> findAll() {
         return userService.findUsers();
+    }
+
+    @GetMapping("/current-user")
+    public User getByToken(@CookieValue(name = "jwt") String token) {
+        try {
+            final var decodedJWT = verifier.verify(token);
+            return userService.getUserById(decodedJWT.getClaim("id").asInt());
+        } catch (JWTCreationException exception) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token", exception);
+        }
     }
 
     @GetMapping("/{name}")
@@ -58,8 +71,17 @@ public class UserController {
     public Online getNumberOfPlayersOnline() { return userService.getNumberOfUsersOnline(); }
 
     @PutMapping("/change-password")
-    public void changePassword(@RequestBody ChangePasswordDTO changePasswordDTO) {
-        userService.changePassword(changePasswordDTO);
+    public void changePassword(@CookieValue(name = "jwt") String token, @RequestBody ChangePasswordDTO changePasswordDTO) {
+        try {
+            final var decodedJWT = verifier.verify(token);
+            User user = userService.getUserById(decodedJWT.getClaim("id").asInt());
+            if (!user.getName().equals(changePasswordDTO.getNickname())) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You can't change password for another user");
+            }
+            userService.changePassword(changePasswordDTO);
+        } catch (JWTCreationException exception) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token", exception);
+        }
     }
 
     @Value
@@ -75,12 +97,21 @@ public class UserController {
     @Builder
     @Jacksonized
     static class ChangeEmailDTO {
-        String nickname;
-        String newEmail;
+        String name;
+        String email;
     }
     @PutMapping("/change-email")
-    public void changePassword(@RequestBody ChangeEmailDTO changeEmailDTO) {
-        userService.changeEmail(changeEmailDTO);
+    public void changeEmail(@CookieValue(name = "jwt") String token, @RequestBody ChangeEmailDTO changeEmailDTO) {
+        try {
+            final var decodedJWT = verifier.verify(token);
+            User user = userService.getUserById(decodedJWT.getClaim("id").asInt());
+            if (!user.getName().equals(changeEmailDTO.getName())) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You can't change password for another user");
+            }
+            userService.changeEmail(changeEmailDTO);
+        } catch (JWTCreationException exception) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token", exception);
+        }
     }
 
     @PostMapping("/login")

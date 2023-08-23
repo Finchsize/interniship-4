@@ -1,4 +1,7 @@
 import { Link, Outlet, useLoaderData } from "react-router-dom";
+import { createContext } from "react";
+
+export const NameContext = createContext<string | undefined>(undefined);
 
 const User = () => {
   const user = useLoaderData() as {
@@ -51,7 +54,9 @@ const User = () => {
           </dl>
         </div>
       </div>
-      <Outlet />
+      <NameContext.Provider value={user.name}>
+        <Outlet />
+      </NameContext.Provider>
     </>
   );
 };
