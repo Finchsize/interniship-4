@@ -6,32 +6,23 @@ import Button from "../components/Button";
 export function Download() {
   const navigate = useNavigate();
   const [countdown, setCountdown] = useState(5);
-  const [copied, setCopied] = useState("");
+  const [copy, setCopy] = useState("Copy link");
+  const [disabled, setDisabled] = useState(false);
 
   const startDownload = () => {
     const link = document.createElement("a");
-    link.href = "https://testcqserver.ngrok.dev/5095_modified.7z";
-
-    document.body.appendChild(link);
+    link.href = `${process.env.REACT_APP_CLIENT}`;
     link.click();
-    document.body.removeChild(link);
-
-    console.log("started download");
   };
   const downloadAdobe = () => {
     const link = document.createElement("a");
-    link.href = "https://testcqserver.ngrok.dev/FPPSetup.exe";
-
-    document.body.appendChild(link);
+    link.href = `${process.env.REACT_APP_FLASH}`;
     link.click();
-    document.body.removeChild(link);
-
-    console.log("download adobe");
   };
   const copyLink = () => {
     navigator.clipboard.writeText(window.location.href);
-    setCopied("Copied!");
-    console.log("copy link");
+    setCopy("Copied to Clipboard");
+    setDisabled(true);
   };
 
   useEffect(() => {
@@ -78,19 +69,33 @@ export function Download() {
         />
         <p>Skip this step, if you already have it</p>
       </div>
-      <div className="flex w-full justify-end">
-        <div className="flex flex-col items-end">
+      <div className="flex flex-col items-end">
+        <div className="flex w-full justify-center gap-4">
           <Button
             text={
-              <div className="flex w-full items-center justify-end">
+              <div className="flex w-full items-center justify-center">
+                <span className="pr-2 font-icons text-white">arrow_back</span>
+                <p>Go back</p>
+              </div>
+            }
+            fullWidth
+            size="base"
+            onClick={() => {
+              navigate(-1);
+            }}
+          />
+          <Button
+            text={
+              <div className="flex w-full items-center justify-center">
                 <span className="pr-2 font-icons text-white">content_copy</span>
-                <p>Copy link</p>
+                <p>{copy}</p>
               </div>
             }
             size="base"
+            fullWidth
             onClick={copyLink}
+            disabled={disabled}
           />
-          <p>{copied}</p>
         </div>
       </div>
     </Modal>

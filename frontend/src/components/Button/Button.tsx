@@ -4,12 +4,14 @@ const Button = ({
   fullWidth,
   size,
   onClick,
+  disabled,
 }: {
   text: React.ReactNode;
   fullWidth?: boolean;
   type?: "button" | "submit";
   size?: "sm" | "base" | "lg" | "xl" | "2xl";
   onClick?: () => void;
+  disabled?: boolean;
 }) => {
   return (
     <button
@@ -30,6 +32,7 @@ const Button = ({
       } ${
         fullWidth ? "w-full" : "w-min"
       } flex justify-center whitespace-nowrap rounded-full bg-orange-600 px-5 py-2 font-semibold text-white transition hover:bg-orange-700`}
+      disabled={disabled}
     >
       {text}
     </button>
