@@ -5,13 +5,15 @@ const Button = ({
   fullWidth,
   size,
   onClick,
+  disabled,
 }: {
-  text: string;
+  text: React.ReactNode;
   loading?: boolean;
   fullWidth?: boolean;
   type?: "button" | "submit";
   size?: "sm" | "base" | "lg" | "xl" | "2xl";
   onClick?: () => void;
+  disabled?: boolean;
 }) => {
   return (
     <button
@@ -37,6 +39,7 @@ const Button = ({
       } px-5 py-2 font-semibold text-white transition ${
         loading && "cursor-wait"
       }`}
+      disabled={disabled}
     >
       {!loading ? (
         text
