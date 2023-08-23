@@ -63,11 +63,18 @@ const User = () => {
             </p>
           </div>
           <div className="flex flex-row items-center justify-between gap-4 rounded-2xl border-2 border-neutral-300 p-4">
-            <div className="flex flex-col gap-1">
-              <p className="whitespace-nowrap text-lg">Unstuck character</p>
-              <p>
-                If your character got stuck, click here to teleport it to
-                default spawn location.
+            <div className="space-y-2">
+              <div className="space-y-1">
+                <p className="whitespace-nowrap text-xl font-semibold">
+                  Unstuck character
+                </p>
+                <p>
+                  If your character got stuck, click here to teleport it to
+                  default spawn location.
+                </p>
+              </div>
+              <p className="font-semibold text-red-600">
+                Warning: You have to logout from the game to use this.
               </p>
             </div>
             <Unstuck />
