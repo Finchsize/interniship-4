@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface PlayerRepository extends JpaRepository<Player, Integer> { }
+public interface PlayerRepository extends JpaRepository<Player, Integer> {
+    Optional<Player> findByAccountId(int account_id);
+}

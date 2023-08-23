@@ -16,7 +16,8 @@ import lombok.experimental.FieldDefaults;
 public class Player {
     @Id
     int id;
-    int account_id;
+    @Column(name = "account_id")
+    int accountId;
     int recordx;
     int recordy;
 }

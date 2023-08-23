@@ -12,7 +12,7 @@ import java.util.Optional;
 public class PlayerService {
     private final PlayerRepository playerRepository;
     public void unstuck(int id) {
-        Optional<Player> player = playerRepository.findById(id);
+        Optional<Player> player = playerRepository.findByAccountId(id);
         if (player.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "No player with specified ID found");
         }
