@@ -17,7 +17,7 @@ const Button = ({
 }) => {
   return (
     <button
-      disabled={loading}
+      disabled={loading || disabled}
       type={
         type === "button" ? "button" : type === "submit" ? "submit" : "button"
       }
@@ -39,7 +39,6 @@ const Button = ({
       } px-5 py-2 font-semibold text-white transition ${
         loading && "cursor-wait"
       }`}
-      disabled={disabled}
     >
       {!loading ? (
         text
