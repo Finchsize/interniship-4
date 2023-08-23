@@ -21,6 +21,7 @@ import profileLoader from "./pages/Profile/loader";
 import ChangePassword from "./pages/Profile/ChangePassword";
 import ChangeEmail from "./pages/Profile/ChangeEmail";
 import { Download } from "./pages/Download";
+import Rankings from "./pages/Rankings";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
             element: <Download />,
           },
         ],
+      },
+      {
+        path: "rankings",
+        element: <Rankings />,
       },
       {
         path: "profile",
