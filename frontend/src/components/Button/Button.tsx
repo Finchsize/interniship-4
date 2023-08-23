@@ -1,3 +1,5 @@
+import "./Button.css";
+
 const Button = ({
   text,
   loading,
@@ -6,6 +8,8 @@ const Button = ({
   size,
   onClick,
   disabled,
+  color,
+  variant,
 }: {
   text: React.ReactNode;
   loading?: boolean;
@@ -14,6 +18,8 @@ const Button = ({
   size?: "sm" | "base" | "lg" | "xl" | "2xl";
   onClick?: () => void;
   disabled?: boolean;
+  color?: "primary" | "danger";
+  variant?: "solid" | "outlined";
 }) => {
   return (
     <button
@@ -22,7 +28,22 @@ const Button = ({
         type === "button" ? "button" : type === "submit" ? "submit" : "button"
       }
       onClick={onClick}
-      className={`${
+      className={`
+      flex justify-center whitespace-nowrap rounded-full px-5 py-2 font-semibold transition
+      ${
+        // Set color
+        color === "primary"
+          ? "primary"
+          : color === "danger"
+          ? "danger"
+          : "primary"
+      }
+      ${
+        // Set variant
+        variant === "outlined" ? "outlined" : "solid"
+      }
+      ${
+        // Set button size
         size === "sm"
           ? "text-sm"
           : size === "lg"
@@ -32,13 +53,12 @@ const Button = ({
           : size === "2xl"
           ? "text-2xl"
           : "text-base"
-      } ${
+      }
+      ${
+        // Set full width
         fullWidth ? "w-full" : "w-min"
-      } flex justify-center whitespace-nowrap rounded-full ${
-        !loading ? "bg-orange-600 hover:bg-orange-700" : "bg-orange-500"
-      } px-5 py-2 font-semibold text-white transition ${
-        loading && "cursor-wait"
-      }`}
+      }
+      ${loading && "cursor-wait"}`}
     >
       {!loading ? (
         text

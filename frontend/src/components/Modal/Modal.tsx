@@ -10,7 +10,7 @@ const Modal = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       <div
-        className="flex w-full max-w-sm flex-col gap-8 rounded-2xl bg-white p-8"
+        className="inline-flex flex-col gap-8 rounded-2xl bg-white p-8"
         onClick={(e) => e.stopPropagation()}
       >
         {children}
