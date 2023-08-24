@@ -18,6 +18,8 @@ public class Player {
     int id;
     @Column(name = "account_id")
     int accountId;
+    @Column(name = "recordmap_id")
+    int recordMapId;
     int recordx;
     int recordy;
 }
