@@ -35,6 +35,18 @@ public class UserController {
         return userService.findUsers();
     }
 
+    @PostMapping("/logout")
+    public void logout(HttpServletResponse response) {
+        Cookie jwtCookie = new Cookie("jwt", "");
+        jwtCookie.setMaxAge(0);
+        jwtCookie.setHttpOnly(true);
+        jwtCookie.setSecure(true);
+        jwtCookie.setAttribute("sameSite", "lax");
+        jwtCookie.setDomain("localhost");
+        jwtCookie.setPath("/");
+        response.addCookie(jwtCookie);
+    }
+
     @GetMapping("/current-user")
     public User getByToken(@CookieValue(name = "jwt") String token) {
         try {
