@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Modal from "../components/Modal";
 import Button from "../components/Button";
+import ButtonDanger from "../components/Button/ButtonDanger";
+import ButtonOutlined from "../components/Button/ButtonOutlined";
 
 export function Download() {
   const navigate = useNavigate();
@@ -73,11 +75,10 @@ export function Download() {
             </p>
           </div>
 
-          <Button
+          <ButtonDanger
             text="Download Adobe Flash Player"
             size="base"
             onClick={downloadAdobe}
-            color="danger"
           />
         </div>
 
@@ -98,7 +99,7 @@ export function Download() {
                 navigate(-1);
               }}
             />
-            <Button
+            <ButtonOutlined
               text={
                 <div className="flex w-full items-center justify-center gap-2">
                   <div className="pt-1">
@@ -110,7 +111,6 @@ export function Download() {
               size="base"
               fullWidth
               onClick={copyLink}
-              variant="outlined"
               disabled={disabled}
             />
           </div>

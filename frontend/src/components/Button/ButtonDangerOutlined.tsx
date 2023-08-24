@@ -23,8 +23,8 @@ const Button = ({
       }
       onClick={onClick}
       className={`
-      flex justify-center whitespace-nowrap rounded-full border-2 border-orange-600 bg-orange-600 px-5
-      py-2 font-semibold text-white transition hover:border-orange-700 hover:bg-orange-700 disabled:border-orange-500 disabled:bg-orange-500
+      flex justify-center whitespace-nowrap rounded-full border-2 border-red-600 bg-transparent px-5
+      py-2 font-semibold text-red-600 transition hover:border-red-700 hover:text-red-700 disabled:border-red-500 disabled:text-red-500
       ${
         // Set button size
         size === "sm"
