@@ -1,11 +1,11 @@
 import Status from "../components/Status";
 import useSWR from "swr";
 import { fetcher } from "../../../../lib/Fetcher";
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function Right() {
-  const { data, isLoading } = useSWR(`user/current-user`, (url) =>
+  const { data, error, isLoading } = useSWR("user/current-user", (url) =>
     fetcher(url, true),
   );
   useEffect(() => console.log("Data:", data), [data]);
@@ -13,7 +13,7 @@ export default function Right() {
     <div className="hidden items-center justify-end gap-4 lg:flex">
       <Status />
       {!isLoading ? (
-        data ? (
+        !error ? (
           <Link
             to="/profile"
             className="flex flex-row items-center gap-1 rounded-full bg-orange-600 px-4 py-1.5 text-white transition hover:bg-orange-700"
