@@ -1,3 +1,5 @@
+import Table from "../components/Table";
+
 const Rankings = () => {
   return (
     <div className="space-y-8">
@@ -8,22 +10,7 @@ const Rankings = () => {
         </p>
       </div>
       <p className="text-lg font-semibold">Top Nobility</p>
-      <table className="w-full table-auto text-left">
-        <thead>
-          <tr>
-            <th>Place</th>
-            <th>Name</th>
-            <th>Donations</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>bruh</td>
-            <td>135135135</td>
-          </tr>
-        </tbody>
-      </table>
+      <Table headers={["Place", "Name", "Donations amount"]} data={[]} />
     </div>
   );
 };
