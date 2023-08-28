@@ -9,8 +9,17 @@ const Rankings = () => {
           See how you compare to other players.
         </p>
       </div>
-      <p className="text-lg font-semibold">Top Nobility</p>
-      <Table headers={["Place", "Name", "Donations amount"]} data={[]} />
+      <div className="space-y-4">
+        <p className="text-lg font-semibold">Top Nobility</p>
+        <Table
+          headers={["Place", "Name", "Donations amount"]}
+          data={[
+            ["1", "bruh", "1414134134"],
+            ["1", "bruh", "1414134134"],
+            ["1", "bruh", "1414134134"],
+          ]}
+        />
+      </div>
     </div>
   );
 };
