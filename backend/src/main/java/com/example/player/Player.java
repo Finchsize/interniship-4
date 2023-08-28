@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
+import java.math.BigInteger;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,10 +18,12 @@ import lombok.experimental.FieldDefaults;
 public class Player {
     @Id
     int id;
+    String name;
     @Column(name = "account_id")
     int accountId;
     @Column(name = "recordmap_id")
     int recordMapId;
     int recordx;
     int recordy;
+    BigInteger donation;
 }
