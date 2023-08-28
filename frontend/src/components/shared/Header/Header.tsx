@@ -16,7 +16,13 @@ export function Header() {
           </h1>
         </div>
       </Link>
-      <Navbar names={["Patch notes", "Rankings", "Marketplace"]}></Navbar>
+      <Navbar
+        links={[
+          { name: "Patch notes", href: "/" },
+          { name: "Rankings", href: "/rankings" },
+          { name: "Marketplace", href: "/" },
+        ]}
+      ></Navbar>
       <Right></Right>
     </header>
   );
