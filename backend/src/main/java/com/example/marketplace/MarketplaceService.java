@@ -1,28 +1,26 @@
 package com.example.marketplace;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
 public class MarketplaceService {
     private final BankRepository bankRepository;
-    private final static int starterMoney = 0;
+    private final static int starterMoney = 1000;
+
     public int getMoney(int user_id) {
-        Optional<BankAccount> bankAccount = bankRepository.findById(user_id);
-        if(bankAccount.isEmpty()) {
-            BankAccount newBankAccount = new BankAccount();
-            newBankAccount.setId(user_id);
-            newBankAccount.setMoney(starterMoney);
-            bankRepository.save(newBankAccount);
-            return starterMoney;
+        BankAccount bankAccount;
+        try {
+            bankAccount = bankRepository.findById(user_id).orElseThrow();
+        } catch(NoSuchElementException exception) {
+            bankAccount = new BankAccount();
+            bankAccount.setId(user_id);
+            bankAccount.setMoney(starterMoney);
+            bankRepository.save(bankAccount);
         }
-        else {
-            return bankAccount.get().getMoney();
-        }
+        return bankAccount.getMoney();
     }
 }
