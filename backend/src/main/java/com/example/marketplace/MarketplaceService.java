@@ -16,9 +16,7 @@ public class MarketplaceService {
         try {
             bankAccount = bankRepository.findById(user_id).orElseThrow();
         } catch(NoSuchElementException exception) {
-            bankAccount = new BankAccount();
-            bankAccount.setId(user_id);
-            bankAccount.setMoney(starterMoney);
+            bankAccount = new BankAccount(user_id, starterMoney);
             bankRepository.save(bankAccount);
         }
         return bankAccount.getMoney();

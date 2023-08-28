@@ -20,4 +20,9 @@ public class BankAccount {
     Integer id;
     @Basic(optional = false)
     int money;
+
+    public BankAccount(int userId, int starterMoney) {
+        id = userId;
+        money = starterMoney;
+    }
 }
