@@ -1,5 +1,6 @@
 import { Link, Outlet, useLoaderData, useNavigate } from "react-router-dom";
-import { createContext } from "react";
+import { createContext, useState } from "react";
+import Button from "../../components/Button";
 import axios from "axios";
 import { useSWRConfig } from "swr";
 
@@ -13,7 +14,7 @@ const User = () => {
   };
   return (
     <>
-      <div>
+      <div className="space-y-16">
         <div className="space-y-8">
           <div className="flex flex-row justify-between gap-8">
             <div className="space-y-2">
@@ -58,11 +59,59 @@ const User = () => {
             </div>
           </dl>
         </div>
+        <div className="space-y-8">
+          <div className="space-y-2">
+            <p className="text-2xl font-semibold">Game options</p>
+            <p className="text-lg text-neutral-700">
+              Use those whenever something wrong happens in the game.
+            </p>
+          </div>
+          <div className="flex flex-row items-center justify-between gap-4 rounded-2xl border-2 border-neutral-300 p-4">
+            <div className="space-y-2">
+              <div className="space-y-1">
+                <p className="whitespace-nowrap text-xl font-semibold">
+                  Unstuck character
+                </p>
+                <p>
+                  If your character got stuck, click here to teleport it to
+                  default spawn location.
+                </p>
+              </div>
+              <p className="font-semibold text-red-600">
+                Warning: You have to logout from the game to use this.
+              </p>
+            </div>
+            <Unstuck />
+          </div>
+        </div>
       </div>
       <NameContext.Provider value={user.name}>
         <Outlet />
       </NameContext.Provider>
     </>
+  );
+};
+
+const Unstuck = () => {
+  const [loading, setLoading] = useState(false);
+  const unstuckCharacter = async () => {
+    setLoading(true);
+    await axios
+      .put(
+        `${process.env.REACT_APP_API}player/unstuck`,
+        {},
+        { withCredentials: true },
+      )
+      .then(() => setLoading(false));
+  };
+  return (
+    <div>
+      <Button
+        onClick={unstuckCharacter}
+        loading={loading}
+        text="Unstuck character"
+      />
+    </div>
   );
 };
 
