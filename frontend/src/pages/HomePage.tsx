@@ -1,10 +1,15 @@
+import { Outlet, useNavigate } from "react-router-dom";
 import background from "../images/co-background.jpg";
 import Button from "../components/Button";
 import Card from "../components/Card";
 
 export function HomePage() {
+  const navigate = useNavigate();
   var lorem =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam mi elit, iaculis ac bibendum et, placerat eu leo.";
+  const navigateToDownload = () => {
+    navigate("/download");
+  };
   return (
     <>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-16">
@@ -18,7 +23,11 @@ export function HomePage() {
               laoreet nisl, sed lacinia ipsum mi id ligula.
             </p>
           </div>
-          <Button text="Download Now" size={"lg"} />
+          <Button
+            text="Download Now"
+            size={"lg"}
+            onClick={navigateToDownload}
+          />
         </div>
         <img
           src={background}
@@ -39,6 +48,7 @@ export function HomePage() {
           <Card title="Marketplace" desc={lorem} icon="storefront"></Card>
         </div>
       </div>
+      <Outlet />
     </>
   );
 }

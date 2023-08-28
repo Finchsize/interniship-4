@@ -20,14 +20,21 @@ import Profile from "./pages/Profile";
 import profileLoader from "./pages/Profile/loader";
 import ChangePassword from "./pages/Profile/ChangePassword";
 import ChangeEmail from "./pages/Profile/ChangeEmail";
+import { Download } from "./pages/Download";
 
 const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
       {
-        index: true,
+        path: "/",
         element: <HomePage />,
+        children: [
+          {
+            path: "download",
+            element: <Download />,
+          },
+        ],
       },
       {
         path: "profile",

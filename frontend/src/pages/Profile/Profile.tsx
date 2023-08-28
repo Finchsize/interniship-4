@@ -1,7 +1,8 @@
-import { Link, Outlet, useLoaderData } from "react-router-dom";
+import { Link, Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import { createContext, useState } from "react";
 import Button from "../../components/Button";
 import axios from "axios";
+import { useSWRConfig } from "swr";
 
 export const NameContext = createContext<string | undefined>(undefined);
 
@@ -15,12 +16,15 @@ const User = () => {
     <>
       <div className="space-y-16">
         <div className="space-y-8">
-          <div className="space-y-2">
-            <p className="text-2xl font-semibold">Profile</p>
-            <p className="text-lg text-neutral-700">
-              This information is displayed to other users when they visit your
-              profile.
-            </p>
+          <div className="flex flex-row justify-between gap-8">
+            <div className="space-y-2">
+              <p className="text-2xl font-semibold">Profile</p>
+              <p className="text-lg text-neutral-700">
+                This information is displayed to other users when they visit
+                your profile.
+              </p>
+            </div>
+            <Logout />
           </div>
           <dl className="space-y-8">
             <div className="flex flex-row">
@@ -108,6 +112,31 @@ const Unstuck = () => {
         text="Unstuck character"
       />
     </div>
+  );
+};
+
+const Logout = () => {
+  const { mutate } = useSWRConfig();
+  const navigate = useNavigate();
+  const logout = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_API}user/logout`,
+        {},
+        { withCredentials: true },
+      )
+      .then(() => {
+        mutate("user/current-user");
+        navigate("/");
+      });
+  };
+  return (
+    <button
+      onClick={logout}
+      className="text-lg font-semibold text-orange-600 transition hover:text-orange-700"
+    >
+      Logout
+    </button>
   );
 };
 
